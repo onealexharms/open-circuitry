@@ -5,3 +5,6 @@
 
 (defmacro define [name value]
   `(def ^:private ~name ~value))
+
+(defn export [thing filename]
+  (dali.io/render-svg thing filename))
