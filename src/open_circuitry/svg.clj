@@ -2,7 +2,7 @@
   (:require
    [open-circuitry.data-tree :as data]))
 
-(defn rendering
+(defn rendered-board
   [board]
   (when-not (:width (data/attributes board))
     (throw (Exception. "A board needs a :width attribute")))
