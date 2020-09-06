@@ -5,4 +5,4 @@
   (let [attributes (second board)]
     (if (:width attributes)
       [nil {:width (:width attributes)}]
-      (throw (Exception.)))))
+      (throw (Exception. "A board needs a :width attribute")))))
