@@ -10,7 +10,7 @@
                         (open-circuitry.svg/rendering [:open-circuitry/board]))))
 
 (deftest a-50-wide-board-rendering-is-50-wide
-  (let [dali-code (open-circuitry.svg/rendering [:open-circuitry/board {:width 50, :height 100}])
-        attributes (second dali-code)]
+  (let [rendered-board (open-circuitry.svg/rendering [:open-circuitry/board {:width 50, :height 100}])
+        attributes (second rendered-board)]
     (is (= 50 (:width attributes)))))
 
