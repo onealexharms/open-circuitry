@@ -10,4 +10,6 @@
                         (rendered-board [:open-circuitry/board]))))
 
 (deftest a-50-wide-board-rendering-is-50-wide
-  (is (= 50 (:width (data/attributes (rendered-board [:open-circuitry/board {:width 50, :height 100}]))))))
+  (is (= 50 (:width (data/attributes (rendered-board [:open-circuitry/board 
+                                                      {:width 50, 
+                                                       :height 100}]))))))
