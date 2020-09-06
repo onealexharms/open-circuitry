@@ -2,4 +2,7 @@
 
 (defn rendering
   [board]
-  (throw (Exception.)))
+  (let [attributes (second board)]
+    (if (:width attributes)
+      [nil {:width (:width attributes)}]
+      (throw (Exception.)))))
