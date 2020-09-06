@@ -8,8 +8,10 @@
                         #"A board needs a :width attribute"
                         (open-circuitry.svg/rendering [:open-circuitry/board]))))
 
+(defn attributes [node]
+  (second node))
+
 (deftest a-50-wide-board-rendering-is-50-wide
-  (let [rendered-board (open-circuitry.svg/rendering [:open-circuitry/board {:width 50, :height 100}])
-        attributes (second rendered-board)]
-    (is (= 50 (:width attributes)))))
+  (let [rendered-board (open-circuitry.svg/rendering [:open-circuitry/board {:width 50, :height 100}])]
+    (is (= 50 (:width (attributes rendered-board))))))
 
