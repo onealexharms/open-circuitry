@@ -2,10 +2,12 @@
   (:require
    [open-circuitry.data-tree :as data]))
 
+(defn needs-attribute [board attribute]
+  (when-not (attribute (data/attributes board))
+    (throw (Exception. (str "A board needs a " attribute " attribute")))))
+
 (defn rendered-board
   [board]
-  (when-not (:width (data/attributes board))
-    (throw (Exception. "A board needs a :width attribute")))
-  (when-not (:height (data/attributes board))
-    (throw (Exception. "A board needs a :height attribute")))
+  (needs-attribute board :width)
+  (needs-attribute board :height)
   [nil {:width (:width (data/attributes board))}])
