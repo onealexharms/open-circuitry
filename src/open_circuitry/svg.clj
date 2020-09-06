@@ -10,5 +10,6 @@
   [board]
   (needs-attribute board :width)
   (needs-attribute board :height)
-  [nil {:width (:width (data/attributes board))
-        :height (:height (data/attributes board))}])
+  [:dali/page
+   {:width (:width (data/attributes board))
+    :height (:height (data/attributes board))}])
