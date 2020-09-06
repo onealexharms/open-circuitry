@@ -5,7 +5,6 @@
 
 (defn rendering
   [board]
-  (let [attributes (attributes board)]
-    (if (:width attributes)
-      [nil {:width (:width attributes)}]
-      (throw (Exception. "A board needs a :width attribute")))))
+  (if (:width (attributes board))
+    [nil {:width (:width (attributes board))}]
+    (throw (Exception. "A board needs a :width attribute"))))
