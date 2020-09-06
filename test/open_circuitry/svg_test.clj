@@ -7,7 +7,14 @@
 (deftest rendering-fails-if-no-width-is-given 
   (is (thrown-with-msg? Exception
                         #"A board needs a :width attribute"
-                        (rendered-board [:open-circuitry/board]))))
+                        (rendered-board [:open-circuitry/board
+                                         {:height 7}]))))
+
+(deftest rendering-fails-if-no-height-is-given
+  (is (thrown-with-msg? Exception
+                        #"A board needs a :height attribute"
+                        (rendered-board [:open-circuitry/board
+                                         {:width 9}]))))
 
 (deftest a-50-wide-board-rendering-is-50-wide
   (let [width (-> (rendered-board [:open-circuitry/board 
