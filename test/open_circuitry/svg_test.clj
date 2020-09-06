@@ -4,5 +4,5 @@
   [open-circuitry.core :refer :all]
   [open-circuitry.svg]))
 
-(deftest empty-board-makes-empty-svg-rendering
-  (is (= [:dali/page] (open-circuitry.svg/rendering [:open-circuitry/board]))))
+(deftest board-complains-if-no-size-is-given
+  (is (thrown? Exception (open-circuitry.svg/rendering [:open-circuitry/board]))))

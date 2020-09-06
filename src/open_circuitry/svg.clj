@@ -2,4 +2,4 @@
 
 (defn rendering
   [board]
-  [:dali/page])
+  (throw (Exception.)))
