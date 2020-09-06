@@ -1,7 +1,6 @@
 (ns open-circuitry.svg-test
  (:require
   [clojure.test :refer [deftest is]]
-  [open-circuitry.core :refer :all]
   [open-circuitry.svg]))
 
 (deftest rendering-fails-if-no-width-is-given 
