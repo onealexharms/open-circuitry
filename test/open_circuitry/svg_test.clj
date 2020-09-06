@@ -23,3 +23,11 @@
                   data/attributes
                   :width)]
     (is (= 50 width))))
+
+(deftest a-100-high-board-rendering-is-100-high
+  (let [height (-> (rendered-board [:open-circuitry/board 
+                                   {:width 50, 
+                                    :height 100}])
+                   data/attributes
+                   :height)]
+    (is (= 100 height))))

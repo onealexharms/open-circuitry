@@ -10,4 +10,5 @@
   [board]
   (needs-attribute board :width)
   (needs-attribute board :height)
-  [nil {:width (:width (data/attributes board))}])
+  [nil {:width (:width (data/attributes board))
+        :height (:height (data/attributes board))}])
