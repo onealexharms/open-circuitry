@@ -10,6 +10,7 @@
   [board]
   (needs-attribute board :width)
   (needs-attribute board :height)
-  [:dali/page
-   {:width (str (:width (data/attributes board)) "mm")
-    :height (str (:height (data/attributes board)) "mm")}])
+  (let [{:keys [width height]} (data/attributes board)]
+    [:dali/page
+     {:width (str width "mm")
+      :height (str height "mm")}]))
