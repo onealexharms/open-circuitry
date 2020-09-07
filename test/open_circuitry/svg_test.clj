@@ -16,20 +16,13 @@
                         (rendered-board [:open-circuitry/board
                                          {:width 9}]))))
 
-(deftest a-50-wide-board-rendering-is-50mm-wide
-  (let [width (-> (rendered-board [:open-circuitry/board 
-                                   {:width 50, 
-                                    :height 100}])
-                  data/attributes
-                  :width)]
-    (is (= "50mm" width))))
-
-(deftest a-100-high-board-rendering-is-100mm-high
-  (let [height (-> (rendered-board [:open-circuitry/board 
-                                    {:width 50,
-                                     :height 100}])
-                   data/attributes
-                   :height)]
+(deftest a-50x100-wide-board-rendering-is-50mm-wide-and-100mm-high
+  (let [{:keys [width height]}
+        (-> (rendered-board [:open-circuitry/board 
+                             {:width 50, 
+                              :height 100}])
+            data/attributes)]
+    (is (= "50mm" width))
     (is (= "100mm" height))))
 
 (deftest viewbox-ensures-rendered-units-are-millimeters
