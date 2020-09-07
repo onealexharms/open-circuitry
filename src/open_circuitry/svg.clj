@@ -6,7 +6,7 @@
   (when-not (attribute (data/attributes board))
     (throw (Exception. (str "A board needs a " attribute " attribute")))))
 
-(defn rendered-board
+(defn dali-rendering
   [board]
   (needs-attribute board :width)
   (needs-attribute board :height)
