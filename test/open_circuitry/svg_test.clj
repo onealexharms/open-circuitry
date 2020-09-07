@@ -16,13 +16,13 @@
                         (rendered-board [:open-circuitry/board
                                          {:width 9}]))))
 
-(deftest a-50-wide-board-rendering-is-50-wide
+(deftest a-50-wide-board-rendering-is-50mm-wide
   (let [width (-> (rendered-board [:open-circuitry/board 
                                    {:width 50, 
                                     :height 100}])
                   data/attributes
                   :width)]
-    (is (= 50 width))))
+    (is (= "50mm" width))))
 
 (deftest a-100-high-board-rendering-is-100-high
   (let [height (-> (rendered-board [:open-circuitry/board 

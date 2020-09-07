@@ -11,5 +11,5 @@
   (needs-attribute board :width)
   (needs-attribute board :height)
   [:dali/page
-   {:width (:width (data/attributes board))
+   {:width (str (:width (data/attributes board)) "mm")
     :height (:height (data/attributes board))}])
