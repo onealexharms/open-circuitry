@@ -13,4 +13,5 @@
   (let [{:keys [width height]} (data/attributes board)]
     [:dali/page
      {:width (str width "mm")
-      :height (str height "mm")}]))
+      :height (str height "mm")
+      :view-box (str "0 0 " width " " height)}]))
