@@ -24,13 +24,13 @@
                   :width)]
     (is (= "50mm" width))))
 
-(deftest a-100-high-board-rendering-is-100-high
+(deftest a-100-high-board-rendering-is-100mm-high
   (let [height (-> (rendered-board [:open-circuitry/board 
                                     {:width 50,
                                      :height 100}])
                    data/attributes
                    :height)]
-    (is (= 100 height))))
+    (is (= "100mm" height))))
 
 (deftest a-board-rendering-is-a-dali-page
   (let [kind-of-node (-> (rendered-board [:open-circuitry/board
