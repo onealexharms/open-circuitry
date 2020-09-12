@@ -28,13 +28,13 @@
       (enlive/select selector)
       first))
 
+(defn svg-attributes [board]
+  (:attrs (svg-element board [:svg])))
+
 (deftest has-a-cutout-toolpath
   (let [board [:open-circuitry/board {:width 10 :height 10}]
         cutout-toolpath (svg-element board [:g#cutout-toolpath])]
    (is cutout-toolpath)))
-
-(defn svg-attributes [board]
-  (:attrs (svg-element board [:svg])))
 
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
   (let [board [:open-circuitry/board {:width 50 :height 100}]
