@@ -19,7 +19,7 @@
                         (dali-rendering [:open-circuitry/board
                                          {:width 9}]))))
 
-(defn svg-attrs [board]
+(defn svg-attributes [board]
   (-> (dali-rendering board)
     dali.io/render-svg-string
     (.getBytes)
@@ -31,7 +31,7 @@
 
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
   (let [board [:open-circuitry/board {:width 50 :height 100}]
-        {:keys [width height]} (svg-attrs board)]
+        {:keys [width height]} (svg-attributes board)]
     (is (= "50mm" width))
     (is (= "100mm" height))))
 
