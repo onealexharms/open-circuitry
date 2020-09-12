@@ -34,15 +34,7 @@
    (is cutout-toolpath)))
 
 (defn svg-attributes [board]
-  (-> board
-      dali-rendering
-      dali.io/render-svg-string
-      (.getBytes)
-      io/input-stream
-      enlive/xml-parser
-      (enlive/select [:svg])
-      first
-      :attrs))
+  (:attrs (svg-element board [:svg])))
 
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
   (let [board [:open-circuitry/board {:width 50 :height 100}]
