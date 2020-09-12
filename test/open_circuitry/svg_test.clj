@@ -1,6 +1,9 @@
 (ns open-circuitry.svg-test
  (:require
+  [clojure.java.io :as io]
   [clojure.test :refer [deftest is]]
+  [dali.io]
+  [net.cgrand.enlive-html :as enlive]
   [open-circuitry.data-tree :as data]
   [open-circuitry.svg :refer [dali-rendering]]))
 
@@ -21,7 +24,13 @@
         (-> (dali-rendering [:open-circuitry/board 
                              {:width 50,
                               :height 100}])
-            data/attributes)]
+            dali.io/render-svg-string
+            (.getBytes)
+            io/input-stream
+            enlive/xml-parser
+            (enlive/select [:svg])
+            first
+            :attrs)]
     (is (= "50mm" width))
     (is (= "100mm" height))))
 
