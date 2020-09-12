@@ -36,12 +36,9 @@
     (is (= "100mm" height))))
 
 (deftest viewbox-ensures-rendered-units-are-millimeters
-  (let [view-box (-> (dali-rendering [:open-circuitry/board
-                                      {:width 57
-                                       :height 142}])
-                     data/attributes
-                     :view-box)]
-    (is (= "0 0 57 142" view-box))))
+  (let [board [:open-circuitry/board {:width 57 :height 142}]
+        {:keys [viewBox]} (svg-attributes board)]
+    (is (= "0 0 57 142" viewBox))))
 
 (deftest a-board-rendering-is-a-dali-page
   (let [kind-of-node (-> (dali-rendering [:open-circuitry/board
