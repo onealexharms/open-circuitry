@@ -19,24 +19,25 @@
                         (dali-rendering [:open-circuitry/board
                                          {:width 9}]))))
 
+(defn svg-attrs [board]
+  (-> (dali-rendering board)
+    dali.io/render-svg-string
+    (.getBytes)
+    io/input-stream
+    enlive/xml-parser
+    (enlive/select [:svg])
+    first
+    :attrs))
+
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
-  (let [{:keys [width height]}
-        (-> (dali-rendering [:open-circuitry/board 
-                             {:width 50,
-                              :height 100}])
-            dali.io/render-svg-string
-            (.getBytes)
-            io/input-stream
-            enlive/xml-parser
-            (enlive/select [:svg])
-            first
-            :attrs)]
+  (let [board [:open-circuitry/board {:width 50 :height 100}]
+        {:keys [width height]} (svg-attrs board)]
     (is (= "50mm" width))
     (is (= "100mm" height))))
 
 (deftest viewbox-ensures-rendered-units-are-millimeters
   (let [view-box (-> (dali-rendering [:open-circuitry/board
-                                      {:width 57,
+                                      {:width 57
                                        :height 142}])
                      data/attributes
                      :view-box)]
