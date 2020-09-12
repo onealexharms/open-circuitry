@@ -18,15 +18,31 @@
                         (dali-rendering [:open-circuitry/board
                                          {:width 9}]))))
 
+(defn svg-element [board selector]
+  (-> board
+      dali-rendering
+      dali.io/render-svg-string
+      (.getBytes)
+      io/input-stream
+      enlive/xml-parser
+      (enlive/select selector)
+      first))
+
+(deftest has-a-cutout-toolpath
+  (let [board [:open-circuitry/board {:width 10 :height 10}]
+        cutout-toolpath (svg-element board [:g#cutout-toolpath])]
+   (is cutout-toolpath)))
+
 (defn svg-attributes [board]
-  (-> (dali-rendering board)
-    dali.io/render-svg-string
-    (.getBytes)
-    io/input-stream
-    enlive/xml-parser
-    (enlive/select [:svg])
-    first
-    :attrs))
+  (-> board
+      dali-rendering
+      dali.io/render-svg-string
+      (.getBytes)
+      io/input-stream
+      enlive/xml-parser
+      (enlive/select [:svg])
+      first
+      :attrs))
 
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
   (let [board [:open-circuitry/board {:width 50 :height 100}]

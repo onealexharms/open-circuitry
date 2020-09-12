@@ -14,4 +14,6 @@
     [:dali/page
      {:width (str width "mm")
       :height (str height "mm")
-      :view-box (str "0 0 " width " " height)}]))
+      :view-box (str "0 0 " width " " height)}
+     [:g#cutout-toolpath
+      [:rect [10 10] [100 100]]]]))
