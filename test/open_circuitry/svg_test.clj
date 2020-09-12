@@ -4,7 +4,6 @@
   [clojure.test :refer [deftest is]]
   [dali.io]
   [net.cgrand.enlive-html :as enlive]
-  [open-circuitry.data-tree :as data]
   [open-circuitry.svg :refer [dali-rendering]]))
 
 (deftest rendering-fails-if-no-width-is-given
@@ -39,10 +38,3 @@
   (let [board [:open-circuitry/board {:width 57 :height 142}]
         {:keys [viewBox]} (svg-attributes board)]
     (is (= "0 0 57 142" viewBox))))
-
-(deftest a-board-rendering-is-a-dali-page
-  (let [kind-of-node (-> (dali-rendering [:open-circuitry/board
-                                          {:width 50,
-                                           :height 100}])
-                         first)]
-    (is (= :dali/page kind-of-node))))
