@@ -16,5 +16,5 @@
       :height (str height "mm")
       :view-box (str "0 0 " width " " height)}
      [:g#cutout-toolpath
-      [:rect {:fill :white}
+      [:rect {:fill :white :stroke :red}
        [0 0] [width height]]]]))

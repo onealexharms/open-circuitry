@@ -53,6 +53,11 @@
         {:keys [fill]} (svg-attributes board [:g#cutout-toolpath :rect])]
     (is (= "white" fill))))
 
+(deftest cutout-has-red-stroke
+  (let [board [:open-circuitry/board {:width 10 :height 20}]
+        {:keys [stroke]} (svg-attributes board [:g#cutout-toolpath :rect])]
+    (is (= "red" stroke))))
+
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
   (let [board [:open-circuitry/board {:width 50 :height 100}]
         {:keys [width height]} (svg-attributes board [:svg])]
