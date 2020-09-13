@@ -6,18 +6,6 @@
   [net.cgrand.enlive-html :as enlive]
   [open-circuitry.svg :refer [dali-rendering]]))
 
-(deftest rendering-open-circuitry-as-dali
-  (testing "fails if no width is given"
-    (is (thrown-with-msg? Exception
-                          #"A board needs a :width attribute"
-                          (dali-rendering [:open-circuitry/board
-                                           {:height 7}]))))
-  (testing "fails if no height is given"
-    (is (thrown-with-msg? Exception
-                          #"A board needs a :height attribute"
-                          (dali-rendering [:open-circuitry/board
-                                           {:width 9}])))))
-
 (defn svg-element [board selector]
   (-> board
       dali-rendering
@@ -30,6 +18,18 @@
 
 (defn svg-attributes [board selector]
   (:attrs (svg-element board selector)))
+
+(deftest rendering-open-circuitry-as-dali
+  (testing "fails if no width is given"
+    (is (thrown-with-msg? Exception
+                          #"A board needs a :width attribute"
+                          (dali-rendering [:open-circuitry/board
+                                           {:height 7}]))))
+  (testing "fails if no height is given"
+    (is (thrown-with-msg? Exception
+                          #"A board needs a :height attribute"
+                          (dali-rendering [:open-circuitry/board
+                                           {:width 9}])))))
 
 (deftest cutout
   (testing "has a cutout toolpath"
@@ -55,13 +55,14 @@
           {:keys [stroke]} (svg-attributes board [:g#cutout-toolpath :rect])]
       (is (= "red" stroke)))))
   
-(deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
-  (let [board [:open-circuitry/board {:width 50 :height 100}]
-        {:keys [width height]} (svg-attributes board [:svg])]
-    (is (= "50mm" width))
-    (is (= "100mm" height))))
+(deftest board-size-is-you-know-correct-lol
+  (testing "a 50x100 board rendering is 50 wide x 100 high"
+    (let [board [:open-circuitry/board {:width 50 :height 100}]
+          {:keys [width height]} (svg-attributes board [:svg])]
+      (is (= "50mm" width))
+      (is (= "100mm" height))))
 
-(deftest viewbox-ensures-rendered-units-are-millimeters
-  (let [board [:open-circuitry/board {:width 57 :height 142}]
-        {:keys [viewBox]} (svg-attributes board [:svg])]
-    (is (= "0 0 57 142" viewBox))))
+  (testing "viewbox ensures rendered units are millimeters"
+    (let [board [:open-circuitry/board {:width 57 :height 142}]
+          {:keys [viewBox]} (svg-attributes board [:svg])]
+      (is (= "0 0 57 142" viewBox)))))
