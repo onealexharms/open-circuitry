@@ -10,5 +10,5 @@
 (defmacro define [name value]
   `(def ^:private ~name ~value))
 
-(defn board [name board-definition]
-  (dali.io/render-svg board-definition (str name ".svg")))
+(defn board [name board]
+  (dali.io/render-svg board (str name ".svg")))
