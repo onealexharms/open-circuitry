@@ -6,17 +6,17 @@
   [net.cgrand.enlive-html :as enlive]
   [open-circuitry.svg :refer [dali-rendering]]))
 
-(deftest rendering-fails-if-no-width-is-given
-  (is (thrown-with-msg? Exception
-                        #"A board needs a :width attribute"
-                        (dali-rendering [:open-circuitry/board
-                                         {:height 7}]))))
-
-(deftest rendering-fails-if-no-height-is-given
-  (is (thrown-with-msg? Exception
-                        #"A board needs a :height attribute"
-                        (dali-rendering [:open-circuitry/board
-                                         {:width 9}]))))
+(deftest rendering-open-circuitry-as-dali
+  (testing "fails if no width is given"
+    (is (thrown-with-msg? Exception
+                          #"A board needs a :width attribute"
+                          (dali-rendering [:open-circuitry/board
+                                           {:height 7}]))))
+  (testing "fails if no height is given"
+    (is (thrown-with-msg? Exception
+                          #"A board needs a :height attribute"
+                          (dali-rendering [:open-circuitry/board
+                                           {:width 9}])))))
 
 (defn svg-element [board selector]
   (-> board
