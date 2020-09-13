@@ -42,7 +42,7 @@
     (is (= "0" x))
     (is (= "0" y))))
 
-(deftest toolpath-size-matches-board-size
+(deftest cutout-size-matches-board-size
   (let [board [:open-circuitry/board {:width 10 :height 20}]
         {:keys [width height]} (svg-attributes board [:g#cutout-toolpath :rect])]
     (is (= "10" width))
