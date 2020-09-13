@@ -28,21 +28,27 @@
       (enlive/select selector)
       first))
 
-(defn svg-attributes [board]
-  (:attrs (svg-element board [:svg])))
+(defn svg-attributes [board selector]
+  (:attrs (svg-element board selector)))
 
 (deftest has-a-cutout-toolpath
   (let [board [:open-circuitry/board {:width 10 :height 10}]
         cutout-toolpath (svg-element board [:g#cutout-toolpath])]
    (is cutout-toolpath)))
 
+(deftest toolpath-size-matches-board-size
+  (let [board [:open-circuitry/board {:width 10 :height 20}]
+        {:keys [width height]} (svg-attributes board [:g#cutout-toolpath :rect])]
+    (is (= "10" width))
+    (is (= "20" height))))
+
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
   (let [board [:open-circuitry/board {:width 50 :height 100}]
-        {:keys [width height]} (svg-attributes board)]
+        {:keys [width height]} (svg-attributes board [:svg])]
     (is (= "50mm" width))
     (is (= "100mm" height))))
 
 (deftest viewbox-ensures-rendered-units-are-millimeters
   (let [board [:open-circuitry/board {:width 57 :height 142}]
-        {:keys [viewBox]} (svg-attributes board)]
+        {:keys [viewBox]} (svg-attributes board [:svg])]
     (is (= "0 0 57 142" viewBox))))
