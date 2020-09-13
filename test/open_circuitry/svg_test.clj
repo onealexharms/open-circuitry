@@ -48,6 +48,11 @@
     (is (= "10" width))
     (is (= "20" height))))
 
+(deftest cutout-has-white-fill
+  (let [board [:open-circuitry/board {:width 10 :height 20}]
+        {:keys [fill]} (svg-attributes board [:g#cutout-toolpath :rect])]
+    (is (= "white" fill))))
+
 (deftest a-50x100-board-rendering-is-50mm-wide-100mm-high
   (let [board [:open-circuitry/board {:width 50 :height 100}]
         {:keys [width height]} (svg-attributes board [:svg])]
