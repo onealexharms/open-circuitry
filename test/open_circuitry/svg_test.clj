@@ -36,6 +36,12 @@
         cutout-toolpath (svg-element board [:g#cutout-toolpath])]
    (is cutout-toolpath)))
 
+(deftest cutout-has-zero-origin 
+  (let [board [:open-circuitry/board {:width 10 :height 20}]
+        {:keys [x y]} (svg-attributes board [:g#cutout-toolpath :rect])]
+    (is (= "0" x))
+    (is (= "0" y))))
+
 (deftest toolpath-size-matches-board-size
   (let [board [:open-circuitry/board {:width 10 :height 20}]
         {:keys [width height]} (svg-attributes board [:g#cutout-toolpath :rect])]
