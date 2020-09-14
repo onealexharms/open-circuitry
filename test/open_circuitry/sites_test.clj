@@ -16,8 +16,8 @@
       (enlive/select selector)
       first))
 
-(deftest figuring-out-what-a-site-is
-  (testing "a site has a toolpath"
+(deftest a-single-juncture
+  (testing "describes a toolpath"
     (let [board [:open-circuitry/board {:width 10, :height 10}
-                 [:site {:drill 2.3}]]]
+                 [:juncture {:drill 2.3}]]]
       (is (svg-element board [[:g (enlive/attr= :id "drill-2.3mm")]])))))
