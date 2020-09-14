@@ -12,14 +12,23 @@
             :stroke :red
             :dali/z-index -99}
      [0 0] [width height]]])
+
+(defn child-toolpaths
+  [board]
+  (let [[child] (drop 2 board)
+        {:keys [drill]} (data/attributes child)
+        id (str "drill-" drill "mm")]
+    [[:g {:id id} [:circle {:cx 0 :cy 0 :r 0.001}]]]))
  
 (defn dali-rendering
   [board]
   (needs-attribute board :width)
   (needs-attribute board :height)
   (let [{:keys [width height]} (data/attributes board)]
-    [:dali/page
-     {:width (str width "mm")
-      :height (str height "mm")
-      :view-box (str "0 0 " width " " height)}
-     (cutout-toolpath width height)]))
+    (vec (concat
+           [:dali/page
+            {:width (str width "mm")
+             :height (str height "mm")
+             :view-box (str "0 0 " width " " height)}]
+           [(cutout-toolpath width height)]
+           (child-toolpaths board)))))
