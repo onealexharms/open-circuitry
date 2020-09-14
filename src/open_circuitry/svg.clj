@@ -13,9 +13,12 @@
             :dali/z-index -99}
      [0 0] [width height]]])
 
+(defn children [node]
+  (drop 2 node))
+
 (defn child-toolpaths
   [board]
-  (let [[child] (drop 2 board)
+  (let [[child] (children board)
         {:keys [drill]} (data/attributes child)
         id (str "drill-" drill "mm")]
     [[:g {:id id} [:circle {:cx 0 :cy 0 :r 0.001}]]]))        
