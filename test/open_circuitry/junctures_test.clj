@@ -4,9 +4,12 @@
     [net.cgrand.enlive-html :as enlive]
     [open-circuitry.test-helpers :as test]))
 
+(defn- board-with-juncture [attributes]
+  [:open-circuitry/board {:width 10, :height 10}
+   [:juncture attributes]])
+
 (deftest drilled-juncture
-  (let [board [:open-circuitry/board {:width 10, :height 10}
-               [:juncture {:drill 2.3}]]
+  (let [board (board-with-juncture {:drill 2.3})
         drill-toolpath (enlive/attr= :id "drill-2.3mm")]
     (testing "has a drill toolpath"
       (is (test/svg-element board [[:g drill-toolpath]])))
