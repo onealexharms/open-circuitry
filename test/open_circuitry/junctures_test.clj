@@ -17,11 +17,10 @@
                          [(enlive/attr= :id (str "drill-" (:drill juncture) "mm")) :> :circle])))
 
 (defn- center-of-drill-hole [juncture]
-  (let [x (:cx (test/svg-attributes (board-with-juncture juncture)
-                                    [(enlive/attr= :id (str "drill-" (:drill juncture) "mm")) :> :circle]))
-        y (:cy (test/svg-attributes (board-with-juncture juncture)
-                                    [(enlive/attr= :id (str "drill-" (:drill juncture) "mm")) :> :circle]))]
-       [x y]))
+  (let [{:keys [cx cy]}
+        (test/svg-attributes (board-with-juncture juncture)
+                             [(enlive/attr= :id (str "drill-" (:drill juncture) "mm")) :> :circle])]
+    [cx cy]))
 
 (deftest drilled-juncture
   (testing "has a drill toolpath"
