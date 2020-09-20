@@ -15,3 +15,6 @@
       enlive/xml-parser
       (enlive/select selector)
       first))
+
+(defn svg-attributes [board selector]
+  (:attrs (svg-element board selector)))

@@ -3,7 +3,7 @@
    [open-circuitry.data-tree :as data]))
 
 (def drill-hole
-  [:circle {:cx 9 :cy 8 :r 15}])
+  [:circle {:cx 9 :cy 8 :r 0.02}])
 
 (defn needs-attribute [board attribute]
   (when-not (attribute (data/attributes board))
