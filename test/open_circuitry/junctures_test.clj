@@ -8,8 +8,11 @@
   [:open-circuitry/board {:width 10, :height 10}
    [:juncture attributes]])
 
-(defn- toolpath-named [board toolpath-name]
+(defn- toolpath-with-id [board toolpath-name]
   (test/svg-element board [[:g (enlive/attr= :id toolpath-name)]]))
+
+(defn- toolpath [toolpath-type]
+  (enlive/attr|= :id toolpath-type))
 
 (defn- drill-hole-attributes [juncture]
   (test/svg-attributes (board-with-juncture juncture)
@@ -21,11 +24,11 @@
 
 (deftest drilled-juncture
   (testing "has a drill toolpath"
-    (is (toolpath-named (board-with-juncture {:drill 2.3}) "drill-2.3mm"))
-    (is (not (toolpath-named (board-with-juncture {:drill 2.3}) "drill-1.9mm")))
-    (is (toolpath-named (board-with-juncture {:drill 1.9}) "drill-1.9mm")))
+    (is (toolpath-with-id (board-with-juncture {:drill 2.3}) "drill-2.3mm"))
+    (is (not (toolpath-with-id (board-with-juncture {:drill 2.3}) "drill-1.9mm")))
+    (is (toolpath-with-id (board-with-juncture {:drill 1.9}) "drill-1.9mm")))
   (testing "is a circle"
-    (is (test/svg-element (board-with-juncture {:drill 2.3}) [(enlive/attr= :id "drill-2.3mm") :> :circle])))
+    (is (test/svg-element (board-with-juncture {:drill 2.3}) [(toolpath "drill") :> :circle])))
   (testing "drill-hole has a radius of 0.02"
     (is (= "0.02" (:r (drill-hole-attributes {:drill 2.3})))))
   (testing "drill hole has a zero center"
