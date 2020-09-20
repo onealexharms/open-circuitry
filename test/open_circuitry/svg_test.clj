@@ -1,23 +1,11 @@
 (ns open-circuitry.svg-test
  (:require
-  [clojure.java.io :as io]
   [clojure.test :refer [deftest testing is]]
-  [dali.io]
-  [net.cgrand.enlive-html :as enlive]
+  [open-circuitry.test-helpers :as test]
   [open-circuitry.svg :refer [dali-rendering]]))
 
-(defn svg-element [board selector]
-  (-> board
-      dali-rendering
-      dali.io/render-svg-string
-      (.getBytes)
-      io/input-stream
-      enlive/xml-parser
-      (enlive/select selector)
-      first))
-
 (defn svg-attributes [board selector]
-  (:attrs (svg-element board selector)))
+  (:attrs (test/svg-element board selector)))
 
 (deftest rendering-open-circuitry-as-dali
   (testing "fails if no width is given"
@@ -34,7 +22,7 @@
 (deftest cutout
   (testing "has a cutout toolpath"
     (let [board [:open-circuitry/board {:width 10 :height 10}]
-          cutout-toolpath (svg-element board [:g#cutout-toolpath])]
+          cutout-toolpath (test/svg-element board [:g#cutout-toolpath])]
      (is cutout-toolpath)))
   (testing "has a zero origin"
     (let [board [:open-circuitry/board {:width 10 :height 20}]
