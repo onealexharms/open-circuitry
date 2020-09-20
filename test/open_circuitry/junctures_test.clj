@@ -5,7 +5,9 @@
     [open-circuitry.test-helpers :as test]))
 
 (deftest a-single-juncture
-  (testing "describes a toolpath"
-    (let [board [:open-circuitry/board {:width 10, :height 10}
-                 [:juncture {:drill 2.3}]]]
-      (is (test/svg-element board [[:g (enlive/attr= :id "drill-2.3mm")]])))))
+  (let [board [:open-circuitry/board {:width 10, :height 10}
+               [:juncture {:drill 2.3}]]]
+    (testing "describes a toolpath"
+      (is (test/svg-element board [[:g (enlive/attr= :id "drill-2.3mm")]])))
+    (testing "drill hole is a circle"
+      (is (test/svg-element board [(enlive/attr= :id "drill-2.3mm") :> :circle])))))

@@ -2,9 +2,8 @@
   (:require
    [open-circuitry.data-tree :as data]))
 
-(def arbitrary-element
-  "required by dali so it doesn't delete stuff"
-  [:circle {:cx -1 :cy -1 :r 0.001}])
+(def drill-hole
+  [:circle {:cx 9 :cy 8 :r 15}])
 
 (defn needs-attribute [board attribute]
   (when-not (attribute (data/attributes board))
@@ -22,7 +21,7 @@
   (let [[child] (data/children board)
         {:keys [drill]} (data/attributes child)
         id (str "drill-" drill "mm")]
-    [[:g {:id id} arbitrary-element]]))
+    [[:g {:id id} drill-hole]]))
  
 (defn dali-rendering
   [board]
