@@ -1,4 +1,4 @@
-(ns open-circuitry.sites-test
+(ns open-circuitry.junctures-test
   (:require
     [clojure.java.io :as io]
     [clojure.test :refer [deftest testing is]]
