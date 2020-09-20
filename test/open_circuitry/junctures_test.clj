@@ -15,7 +15,9 @@
   (let [board (board-with-juncture {:drill 2.3})
         drill-toolpath (enlive/attr= :id "drill-2.3mm")]
     (testing "has a drill toolpath"
-      (is (toolpath-named (board-with-juncture {:drill 2.3}) "drill-2.3mm")))
+      (is (toolpath-named (board-with-juncture {:drill 2.3}) "drill-2.3mm"))
+      (is (not (toolpath-named (board-with-juncture {:drill 2.3}) "drill-1.9mm")))
+      (is (toolpath-named (board-with-juncture {:drill 1.9}) "drill-1.9mm")))
     (testing "is a circle"
       (is (test/svg-element board [drill-toolpath :> :circle])))
     (testing "drill-hole circle has a radius of 0.02"
