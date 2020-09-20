@@ -8,11 +8,14 @@
   [:open-circuitry/board {:width 10, :height 10}
    [:juncture attributes]])
 
+(defn- has-toolpath-named? [board toolpath-name]
+  (test/svg-element board [[:g (enlive/attr= :id toolpath-name)]]))
+
 (deftest drilled-juncture
   (let [board (board-with-juncture {:drill 2.3})
         drill-toolpath (enlive/attr= :id "drill-2.3mm")]
     (testing "has a drill toolpath"
-      (is (test/svg-element board [[:g drill-toolpath]])))
+      (is (has-toolpath-named? (board-with-juncture {:drill 2.3}) "drill-2.3mm")))
     (testing "is a circle"
       (is (test/svg-element board [drill-toolpath :> :circle])))
     (testing "drill-hole circle has a radius of 0.02"
