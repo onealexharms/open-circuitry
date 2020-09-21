@@ -11,8 +11,8 @@
   [:open-circuitry/board {:width 10, :height 10}
    [:juncture attributes]])
 
-(defn- toolpath-with-id [toolpath-name board]
-  (test/svg-element board [[:g (enlive/attr= :id toolpath-name)]]))
+(defn- toolpath-with-id [toolpath-id board]
+  (test/svg-element board [[:g (enlive/attr= :id toolpath-id)]]))
 
 (defn- toolpath [toolpath-type]
   (enlive/attr|= :id toolpath-type))
