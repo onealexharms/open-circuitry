@@ -4,6 +4,9 @@
     [net.cgrand.enlive-html :as enlive]
     [open-circuitry.test-helpers :as test]))
 
+(defmacro exists [thing]
+  `(is ~thing))
+
 (defn- board-with-juncture [attributes]
   [:open-circuitry/board {:width 10, :height 10}
    [:juncture attributes]])
@@ -24,11 +27,11 @@
 
 (deftest drilled-juncture
   (testing "has a drill toolpath"
-    (is (toolpath-with-id "drill-2.3mm" (board-with-juncture {:drill 2.3})))
-    (is (not (toolpath-with-id "drill-1.9mm" (board-with-juncture {:drill 2.3}))))
-    (is (toolpath-with-id "drill-1.9mm" (board-with-juncture {:drill 1.9}))))
+    (exists (toolpath-with-id "drill-2.3mm" (board-with-juncture {:drill 2.3})))
+    (exists (not (toolpath-with-id "drill-1.9mm" (board-with-juncture {:drill 2.3}))))
+    (exists (toolpath-with-id "drill-1.9mm" (board-with-juncture {:drill 1.9}))))
   (testing "is a circle"
-    (is (test/svg-element (board-with-juncture {:drill 2.3}) [(toolpath "drill") :> :circle])))
+    (exists (test/svg-element (board-with-juncture {:drill 2.3}) [(toolpath "drill") :> :circle])))
   (testing "drill-hole has a radius of 0.02"
     (is (= "0.02" (:r (drill-hole-attributes {:drill 2.3})))))
   (testing "drill hole has a zero center"
