@@ -7,9 +7,9 @@
 (defmacro exists [thing]
   `(is ~thing))
 
-(defn- board-with-juncture [attributes]
+(defn- board-with-juncture [juncture-attributes]
   [:open-circuitry/board {:width 10, :height 10}
-   [:juncture attributes]])
+   [:juncture juncture-attributes]])
 
 (defn- toolpath-with-id [toolpath-id board]
   (test/svg-element board [[:g (enlive/attr= :id toolpath-id)]]))
