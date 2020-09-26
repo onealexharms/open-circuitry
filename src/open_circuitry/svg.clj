@@ -18,10 +18,13 @@
             :dali/z-index -99}
      [0 0] [width height]]])
 
+(defn juncture [board]
+  (first (data/children board)))
+
 (defn drill-toolpaths
   [board]
-  (let [juncture       (first (data/children board))
-        drill-diameter (:drill (data/attributes juncture))
+  (let [drill-juncture (juncture board)
+        drill-diameter (:drill (data/attributes drill-juncture))
         id             (str "drill-" drill-diameter "mm")]
     [[toolpath {:id id} drill-hole]]))
  
