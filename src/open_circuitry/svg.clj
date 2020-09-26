@@ -20,9 +20,9 @@
 
 (defn child-toolpaths
   [board]
-  (let [juncture (first (data/children board))
-        {:keys [drill]} (data/attributes juncture)
-        id (str "drill-" drill "mm")]
+  (let [juncture       (first (data/children board))
+        drill-diameter (:drill (data/attributes juncture))
+        id             (str "drill-" drill-diameter "mm")]
     [[toolpath {:id id} drill-hole]]))
  
 (defn dali-rendering
