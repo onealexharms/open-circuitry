@@ -25,14 +25,14 @@
   (let [{:keys [cx cy]} (drill-hole-attributes juncture)]
     [cx cy]))
 
-(deftest drilled-juncture
-  (testing "has a drill toolpath"
+(deftest a-juncture-that-contains-a-drill
+  (testing "has a well-formed drill toolpath"
     (exists (toolpath-with-id "drill-2.3mm" (board-with-juncture {:drill 2.3})))
     (exists (not (toolpath-with-id "drill-1.9mm" (board-with-juncture {:drill 2.3}))))
     (exists (toolpath-with-id "drill-1.9mm" (board-with-juncture {:drill 1.9}))))
   (testing "is a circle"
     (exists (test/svg-element (board-with-juncture {:drill 2.3}) [(toolpath "drill") :> :circle])))
-  (testing "drill-hole has a radius of 0.02"
+  (testing "has a radius of 0.02"
     (is (= "0.02" (:r (drill-hole-attributes {:drill 2.3})))))
-  (testing "drill hole has a zero center"
+  (testing "has a zero center"
     (is (= ["0" "0"] (center-of-drill-hole {:drill 2.3})))))
