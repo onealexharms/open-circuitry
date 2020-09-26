@@ -12,7 +12,7 @@
 (defn cutout-toolpath [width height]
    [:g#cutout-toolpath
     [:rect {:fill :white
-            :stroke :red
+            :stroke :cornflowerblue
             :dali/z-index -99}
      [0 0] [width height]]])
 

@@ -48,7 +48,7 @@
     (let [board [:open-circuitry/board {:width 10 :height 20}]
           {:keys [fill]} (test/svg-attributes board [:g#cutout-toolpath :rect])]
       (is (= "white" fill))))
-  (testing "has red stroke"
+  (testing "has visible stroke"
     (let [board [:open-circuitry/board {:width 10 :height 20}]
           {:keys [stroke]} (test/svg-attributes board [:g#cutout-toolpath :rect])]
-      (is (= "red" stroke)))))
+      (is (= "cornflowerblue" stroke)))))
