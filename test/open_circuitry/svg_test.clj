@@ -20,12 +20,12 @@
   (testing "only if it has"
     (testing "a width"
       (is (thrown-with-msg? Exception
-                            #"A board needs a :width attribute"
+                            #"A board needs attribute: :width"
                             (dali-rendering [:open-circuitry/board
                                              {:height 7}]))))
     (testing "a height"
       (is (thrown-with-msg? Exception
-                            #"A board needs a :height attribute"
+                            #"A board needs attribute: :height"
                             (dali-rendering [:open-circuitry/board
                                              {:width 9}]))))))
 

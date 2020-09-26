@@ -7,9 +7,9 @@
 
 (def toolpath :g)
 
-(defn needs-attribute [board attribute]
-  (when-not (attribute (data/attributes board))
-    (throw (Exception. (str "A board needs a " attribute " attribute")))))
+(defn needs-attribute [thing attribute]
+  (when-not (attribute (data/attributes thing))
+    (throw (Exception. (str "A " (name (first thing)) " needs attribute: " attribute)))))
 
 (defn cutout-toolpath [width height]
    [toolpath {:id "cutout-toolpath"}
@@ -23,11 +23,13 @@
 
 (defn drill-toolpaths
   [board]
-  (let [drill-juncture (juncture board)
-        drill-diameter (:drill (data/attributes drill-juncture))
-        {:keys [x, y]} (data/attributes drill-juncture)
-        id             (str "drill-" drill-diameter "mm")]
-    [[toolpath {:id id} (drill-hole x y)]]))
+  (when-let [drill-juncture (juncture board)]
+    (needs-attribute drill-juncture :x)
+    (needs-attribute drill-juncture :y)
+    (let [drill-diameter (:drill (data/attributes drill-juncture))
+          {:keys [x, y]} (data/attributes drill-juncture)
+          id             (str "drill-" drill-diameter "mm")]
+      [[toolpath {:id id} (drill-hole x y)]])))
  
 (defn dali-rendering
   [board]
