@@ -28,18 +28,17 @@
 
 (deftest a-rendered-board
   (testing "when a juncture has a drill"
-    (testing "it has a well-formed drill toolpath"
+    (testing "has a well-formed toolpath"
       (exists (toolpath-with-id "drill-2.3mm" (board-with-juncture {:x 1, :y 2, :drill 2.3})))
       (exists (not (toolpath-with-id "drill-1.9mm" (board-with-juncture {:x 2, :y 3, :drill 2.3}))))
       (exists (toolpath-with-id "drill-1.9mm" (board-with-juncture {:x 1, :y 0, :drill 1.9}))))
-    (testing "it has a hole"
-      (exists (test/svg-element (board-with-juncture {:x 11, :y 12, :drill 2.3}) [(toolpath "drill") :> :circle])))
-    (testing "with a radius of 0.02"
+    (testing "creates a hole that accomodates LaserWeb's hole weirdness"
+      (exists (test/svg-element (board-with-juncture {:x 11, :y 12, :drill 2.3}) [(toolpath "drill") :> :circle]))
       (is (= "0.02" (:r (drill-hole-attributes {:x 63, :y 65, :drill 2.3})))))
-    (testing "describes a hole at the juncture's location"
+    (testing "at the juncture's location"
       (is (= ["5" "10"] (center-of-drill-hole {:x 5 :y 10
                                                :drill 2.3}))))
-    (testing "requires coordinates for the center"
+    (testing "only if it has"
       (testing "an x coordinate"
         (is (thrown-with-msg? Exception
                               #"A juncture needs attribute: :x"
