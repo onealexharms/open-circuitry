@@ -5,12 +5,14 @@
 (def drill-hole
   [:circle {:cx 0 :cy 0 :r 0.02}])
 
+(def toolpath :g)
+
 (defn needs-attribute [board attribute]
   (when-not (attribute (data/attributes board))
     (throw (Exception. (str "A board needs a " attribute " attribute")))))
 
 (defn cutout-toolpath [width height]
-   [:g#cutout-toolpath
+   [toolpath {:id "cutout-toolpath"}
     [:rect {:fill :white
             :stroke :cornflowerblue
             :dali/z-index -99}
@@ -21,7 +23,7 @@
   (let [juncture (first (data/children board))
         {:keys [drill]} (data/attributes juncture)
         id (str "drill-" drill "mm")]
-    [[:g {:id id} drill-hole]]))
+    [[toolpath {:id id} drill-hole]]))
  
 (defn dali-rendering
   [board]
