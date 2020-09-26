@@ -18,7 +18,7 @@
             :dali/z-index -99}
      [0 0] [width height]]])
 
-(defn child-toolpaths
+(defn drill-toolpaths
   [board]
   (let [juncture       (first (data/children board))
         drill-diameter (:drill (data/attributes juncture))
@@ -36,4 +36,4 @@
              :height (str height "mm")
              :view-box (str "0 0 " width " " height)}]
            [(cutout-toolpath width height)]
-           (child-toolpaths board)))))
+           (drill-toolpaths board)))))
