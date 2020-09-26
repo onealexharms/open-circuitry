@@ -2,8 +2,8 @@
   (:require
    [open-circuitry.data-tree :as data]))
 
-(def drill-hole
-  [:circle {:cx 0 :cy 0 :r 0.02}])
+(defn drill-hole [x y]
+  [:circle {:cx x :cy y :r 0.02}])
 
 (def toolpath :g)
 
@@ -25,8 +25,9 @@
   [board]
   (let [drill-juncture (juncture board)
         drill-diameter (:drill (data/attributes drill-juncture))
+        {:keys [x, y]} (data/attributes drill-juncture)
         id             (str "drill-" drill-diameter "mm")]
-    [[toolpath {:id id} drill-hole]]))
+    [[toolpath {:id id} (drill-hole x y)]]))
  
 (defn dali-rendering
   [board]

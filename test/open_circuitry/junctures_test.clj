@@ -34,5 +34,6 @@
     (exists (test/svg-element (board-with-juncture {:drill 2.3}) [(toolpath "drill") :> :circle])))
   (testing "has a radius of 0.02"
     (is (= "0.02" (:r (drill-hole-attributes {:drill 2.3})))))
-  (testing "has a zero center"
-    (is (= ["0" "0"] (center-of-drill-hole {:drill 2.3})))))
+  (testing "has a hole at the juncture's location"
+    (is (= ["5" "10"] (center-of-drill-hole {:x 5 :y 10
+                                             :drill 2.3})))))
