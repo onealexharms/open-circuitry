@@ -18,8 +18,8 @@
 
 (defn child-toolpaths
   [board]
-  (let [[child] (data/children board)
-        {:keys [drill]} (data/attributes child)
+  (let [juncture (first (data/children board))
+        {:keys [drill]} (data/attributes juncture)
         id (str "drill-" drill "mm")]
     [[:g {:id id} drill-hole]]))
  
