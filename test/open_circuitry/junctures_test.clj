@@ -17,12 +17,12 @@
 (defn- toolpath [toolpath-type]
   (enlive/attr|= :id toolpath-type))
 
-(defn- drill-hole-attributes [juncture]
-  (test/svg-attributes (board-with-juncture juncture)
+(defn- drill-hole-attributes [juncture-attributes]
+  (test/svg-attributes (board-with-juncture juncture-attributes)
                        [(enlive/attr|= :id "drill") :> :circle]))
 
-(defn- center-of-drill-hole [juncture]
-  (let [{:keys [cx cy]} (drill-hole-attributes juncture)]
+(defn- center-of-drill-hole [juncture-attributes]
+  (let [{:keys [cx cy]} (drill-hole-attributes juncture-attributes)]
     [cx cy]))
 
 (deftest a-juncture-that-contains-a-drill
