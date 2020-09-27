@@ -13,11 +13,11 @@
   [:open-circuitry/board {:width 10, :height 10}
    [:juncture juncture-attributes]])
 
-(defn- toolpath-with-id [toolpath-id board]
-  (test/element-by-selector [[:g (enlive/attr= :id toolpath-id)]] board))
-
 (defn- toolpaths-with-id [toolpath-id board]
   (test/elements-by-selector [[:g (enlive/attr= :id toolpath-id)]] board))
+
+(defn- toolpath-with-id [toolpath-id board]
+  (first (toolpaths-with-id toolpath-id board)))
 
 (def hole-selector
   [(enlive/attr|= :id "drill") :> :circle])
