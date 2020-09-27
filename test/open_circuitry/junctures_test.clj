@@ -29,6 +29,27 @@
   (let [{:keys [cx cy]} (drill-hole-attributes juncture-attributes)]
     [cx cy]))
 
+(deftest a-drill-toolpath
+  (testing "containing two drilled junctures"
+    (let [board     [:open-circuitry/board {:width 10, :height 10}
+                     [:juncture {:x 1, :y 2, :drill 5}]
+                     [:juncture {:x 2, :y 3, :drill 5}]]
+          id        (:id (test/attributes-by-selector [(toolpath-of-type "drill")] board))
+          holes     (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)
+          location1 (select-keys (:attrs (first holes)) [:cx :cy])
+          location2 (select-keys (:attrs (second holes)) [:cx :cy])]
+      (testing "is a unique toolpath"
+        (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")] board)))))
+      (testing "has the same diameter as both junctures"
+        (is (= "drill-5mm" id)))
+      (testing "contains only junctures that are drilled")
+        ;;TODO
+      (testing "contains only junctures with the toolpath's diameter")
+        ;;TODO
+      (testing "has two holes in different places"
+        (is (= 2 (count holes)))
+        (is (not (= location1 location2)))))))
+
 (deftest a-rendered-board
   (testing "when a juncture has a drill"
     (testing "has a well-formed toolpath"
@@ -49,19 +70,5 @@
       (testing "an y coordinate"
         (is (thrown-with-msg? Exception
                               #"A juncture needs attribute: :y"
-                              (dali-rendering (board-with-juncture {:x 418 :drill 4.8})))))))
+                              (dali-rendering (board-with-juncture {:x 418 :drill 4.8}))))))))
   
-  (testing "when two junctures have are drilled"
-    (testing "when the diameters are the same"
-      (let [board     [:open-circuitry/board {:width 10, :height 10}
-                       [:juncture {:x 1, :y 2, :drill 5}]
-                       [:juncture {:x 2, :y 3, :drill 5}]]
-            holes     (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)
-            location1 (select-keys (:attrs (first holes)) [:cx :cy])
-            location2 (select-keys (:attrs (second holes)) [:cx :cy])]
-        (testing "they share one toolpath"
-          (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")] board)))))
-        (testing "the toolpath has two holes"
-          (is (= 2 (count holes))))
-        (testing "the holes are in different places"
-          (is (not (= location1 location2))))))))
