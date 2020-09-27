@@ -52,13 +52,10 @@
 
   (testing "when two junctures have a drill"
     (testing "when the diameters are the same"
-      (testing "has one toolpath"
-        (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")]
-                                                   [:open-circuitry/board {:width 10, :height 10}
-                                                    [:juncture {:x 1, :y 2, :drill 5}]
-                                                    [:juncture {:x 2, :y 3, :drill 5}]])))))
-      (testing "has two holes"
-        (is (= 2 (count (test/elements-by-selector [(toolpath-of-type "drill") :> :circle]
-                                                   [:open-circuitry/board {:width 10, :height 10}
-                                                    [:juncture {:x 1, :y 2, :drill 5}]
-                                                    [:juncture {:x 2, :y 3, :drill 5}]]))))))))
+      (let [board [:open-circuitry/board {:width 10, :height 10}
+                   [:juncture {:x 1, :y 2, :drill 5}]
+                   [:juncture {:x 2, :y 3, :drill 5}]]]
+        (testing "has one toolpath"
+          (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")] board)))))
+        (testing "has two holes"
+          (is (= 2 (count (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)))))))))
