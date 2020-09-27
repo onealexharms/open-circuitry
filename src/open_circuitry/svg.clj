@@ -36,11 +36,12 @@
 
 (defn drill-toolpaths
   [board]
-  (when-let [drill-juncture (first (junctures board))]
-    (needs-attribute drill-juncture :x)
-    (needs-attribute drill-juncture :y)
-    (let [drill-diameter (:drill (data/attributes drill-juncture))]
-      [(drill-toolpath drill-diameter board)])))
+  (doseq [juncture (junctures board)]
+    (needs-attribute juncture :x)
+    (needs-attribute juncture :y))
+  (for [juncture (junctures board)]
+    (let [drill-diameter (:drill (data/attributes juncture))]
+      (drill-toolpath drill-diameter board))))
  
 (defn dali-rendering
   [board]
