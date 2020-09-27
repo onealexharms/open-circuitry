@@ -33,6 +33,7 @@
   (testing "containing two 5mm drilled junctures"
     (let [toolpath-id       "drill-5mm"
           toolpath-selector (enlive/attr= :id toolpath-id)
+          location-selector (fn [x y] [[(enlive/attr= :cx (str x) (enlive/attr= :cy (str y)))]])
           board             [:open-circuitry/board {:width 10, :height 10}
                              [:juncture {:x 4, :y 3, :drill 2}]
                              [:juncture {:x 1, :y 2, :drill 5}]
@@ -45,16 +46,11 @@
         (is (= 1 (count (toolpaths-with-id toolpath-id board)))))
       (testing "contains only junctures that are drilled"
         (is (empty? (test/elements-by-selector 
-                      [toolpath-selector
-                       :>
-                       [[(enlive/attr= :cx "5") (enlive/attr= :cy "6")]]]
+                      [toolpath-selector :> (location-selector 5 6)]
                       board))))
       (testing "does not contain junctures of a different diameter"
         (is (empty? (test/elements-by-selector
-                      [toolpath-selector
-                       :>
-                       [[(enlive/attr= :cx "4")
-                         (enlive/attr= :cy "3")]]]
+                      [toolpath-selector :> (location-selector 4 3)]
                       board))))
       (testing "has two holes in different places"
         (is (= 2 (count holes)))
