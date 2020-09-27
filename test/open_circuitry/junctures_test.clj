@@ -13,14 +13,17 @@
    [:juncture juncture-attributes]])
 
 (defn- toolpath-with-id [toolpath-id board]
-  (test/svg-element board [[:g (enlive/attr= :id toolpath-id)]]))
+  (test/element-by-selector [[:g (enlive/attr= :id toolpath-id)]] board))
 
-(defn- toolpath [toolpath-type]
+(defn- toolpath-of-type [toolpath-type]
   (enlive/attr|= :id toolpath-type))
+
+(def hole-selector
+  [(toolpath-of-type "drill") :> :circle]) 
 
 (defn- drill-hole-attributes [juncture-attributes]
   (test/svg-attributes (board-with-juncture juncture-attributes)
-                       [(enlive/attr|= :id "drill") :> :circle]))
+                       hole-selector))
 
 (defn- center-of-drill-hole [juncture-attributes]
   (let [{:keys [cx cy]} (drill-hole-attributes juncture-attributes)]
@@ -33,7 +36,7 @@
       (exists (not (toolpath-with-id "drill-1.9mm" (board-with-juncture {:x 2, :y 3, :drill 2.3}))))
       (exists (toolpath-with-id "drill-1.9mm" (board-with-juncture {:x 1, :y 0, :drill 1.9}))))
     (testing "creates a hole that accomodates LaserWeb's hole weirdness"
-      (exists (test/svg-element (board-with-juncture {:x 11, :y 12, :drill 2.3}) [(toolpath "drill") :> :circle]))
+      (exists (test/element-by-selector hole-selector (board-with-juncture {:x 11, :y 12, :drill 2.3})))
       (is (= "0.02" (:r (drill-hole-attributes {:x 63, :y 65, :drill 2.3})))))
     (testing "at the juncture's location"
       (is (= ["5" "10"] (center-of-drill-hole {:x 5 :y 10

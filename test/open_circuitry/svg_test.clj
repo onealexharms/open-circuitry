@@ -32,7 +32,7 @@
 (deftest cutout
   (testing "has a cutout toolpath"
     (let [board [:open-circuitry/board {:width 10 :height 10}]
-          cutout-toolpath (test/svg-element board [:g#cutout-toolpath])]
+          cutout-toolpath (test/element-by-selector [:g#cutout-toolpath] board)]
      (is cutout-toolpath)))
   (testing "has a zero origin"
     (let [board [:open-circuitry/board {:width 10 :height 20}]

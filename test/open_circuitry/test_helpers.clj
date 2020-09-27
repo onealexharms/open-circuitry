@@ -6,15 +6,17 @@
     [open-circuitry.svg :refer [dali-rendering]]))
     
 
-(defn svg-element [board selector]
+(defn elements-by-selector [selector board]
   (-> board
       dali-rendering
       dali.io/render-svg-string
       (.getBytes)
       io/input-stream
       enlive/xml-parser
-      (enlive/select selector)
-      first))
+      (enlive/select selector)))
+
+(defn element-by-selector [selector board]
+  (first (elements-by-selector selector board)))
 
 (defn svg-attributes [board selector]
-  (:attrs (svg-element board selector)))
+  (:attrs (element-by-selector selector board)))
