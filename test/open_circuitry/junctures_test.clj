@@ -16,6 +16,9 @@
 (defn- toolpath-with-id [toolpath-id board]
   (test/element-by-selector [[:g (enlive/attr= :id toolpath-id)]] board))
 
+(defn- toolpaths-with-id [toolpath-id board]
+  (test/elements-by-selector [[:g (enlive/attr= :id toolpath-id)]] board))
+
 (defn- toolpath-of-type [toolpath-type]
   (enlive/attr|= :id toolpath-type))
 
@@ -38,8 +41,8 @@
           holes     (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)
           location1 (select-keys (:attrs (first holes)) [:cx :cy])
           location2 (select-keys (:attrs (second holes)) [:cx :cy])]
-      (testing "is a unique toolpath"
-        (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")] board)))))
+      (testing "is the only drill toolpath for that size"
+        (is (= 1 (count (toolpaths-with-id "drill-5mm" board)))))
       (testing "has the same diameter as both junctures"
         (is (= "drill-5mm" id)))
       (testing "contains only junctures that are drilled")
