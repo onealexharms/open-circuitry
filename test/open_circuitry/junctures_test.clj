@@ -36,7 +36,8 @@
   (testing "containing two drilled junctures"
     (let [board     [:open-circuitry/board {:width 10, :height 10}
                      [:juncture {:x 1, :y 2, :drill 5}]
-                     [:juncture {:x 2, :y 3, :drill 5}]]
+                     [:juncture {:x 2, :y 3, :drill 5}]
+                     [:juncture {:x 5, :y 6}]]
           id        (:id (test/attributes-by-selector [(toolpath-of-type "drill")] board))
           holes     (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)
           location1 (select-keys (:attrs (first holes)) [:cx :cy])
@@ -45,8 +46,9 @@
         (is (= 1 (count (toolpaths-with-id "drill-5mm" board)))))
       (testing "has the same diameter as both junctures"
         (is (= "drill-5mm" id)))
-      (testing "contains only junctures that are drilled")
-        ;;TODO
+      (testing "contains only junctures that are drilled"
+        (is (empty? (test/elements-by-selector 
+                      [[(enlive/attr= :cx "5") (enlive/attr= :cy "6")]] board))))
       (testing "contains only junctures with the toolpath's diameter")
         ;;TODO
       (testing "has two holes in different places"

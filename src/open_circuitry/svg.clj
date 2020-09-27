@@ -25,7 +25,8 @@
   (vec (apply concat collections)))
 
 (defn drill-holes [board]
-  (for [juncture (junctures board)]
+  (for [juncture (junctures board)
+        :when    (:drill (data/attributes juncture))]
     (let [{:keys [x, y]} (data/attributes juncture)]
       (drill-hole x y))))
 
