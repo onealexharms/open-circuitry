@@ -56,4 +56,9 @@
         (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")]
                                                    [:open-circuitry/board {:width 10, :height 10}
                                                     [:juncture {:x 1, :y 2, :drill 5}]
+                                                    [:juncture {:x 2, :y 3, :drill 5}]])))))
+      (testing "has two holes"
+        (is (= 2 (count (test/elements-by-selector [(toolpath-of-type "drill") :> :circle]
+                                                   [:open-circuitry/board {:width 10, :height 10}
+                                                    [:juncture {:x 1, :y 2, :drill 5}]
                                                     [:juncture {:x 2, :y 3, :drill 5}]]))))))))

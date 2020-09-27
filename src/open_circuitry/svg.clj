@@ -18,18 +18,21 @@
             :dali/z-index -99}
      [0 0] [width height]]])
 
-(defn juncture [board]
-  (first (data/children board)))
+(defn junctures [board]
+  (data/children board))
 
 (defn drill-toolpaths
   [board]
-  (when-let [drill-juncture (juncture board)]
+  (when-let [drill-juncture (first (junctures board))]
     (needs-attribute drill-juncture :x)
     (needs-attribute drill-juncture :y)
     (let [drill-diameter (:drill (data/attributes drill-juncture))
           {:keys [x, y]} (data/attributes drill-juncture)
           id             (str "drill-" drill-diameter "mm")]
-      [[toolpath {:id id} (drill-hole x y)]])))
+      [(vec (concat
+              [toolpath {:id id}]
+              (for [_ (junctures board)]
+                (drill-hole x y))))])))
  
 (defn dali-rendering
   [board]
