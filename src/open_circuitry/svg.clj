@@ -38,6 +38,7 @@
   (->> (junctures board)
     (map (fn [juncture]
            (:drill (data/attributes juncture))))
+    (remove nil?)
     distinct))
 
 (defn drill-toolpaths

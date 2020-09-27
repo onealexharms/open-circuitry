@@ -54,7 +54,13 @@
                       board))))
       (testing "has two holes in different places"
         (is (= 2 (count holes)))
-        (is (not (= location1 location2)))))))
+        (is (not (= location1 location2))))))
+  (testing "for a board with only non-drilled junctures"
+    (let [board [:open-circuitry/board {:width 10, :height 10}
+                 [:juncture {:x 4, :y 3}]
+                 [:juncture {:x 3, :y 7}]]]
+      (testing "does not exist"
+        (is (empty? (test/elements-by-selector [(enlive/attr|= :id "drill")] board))))))) 
 
 (deftest a-rendered-board
   (testing "when a juncture has a drill"
@@ -77,4 +83,4 @@
         (is (thrown-with-msg? Exception
                               #"A juncture needs attribute: :y"
                               (dali-rendering (board-with-juncture {:x 418 :drill 4.8}))))))))
-  
+    
