@@ -50,12 +50,13 @@
                               #"A juncture needs attribute: :y"
                               (dali-rendering (board-with-juncture {:x 418 :drill 4.8})))))))
 
-  (testing "when two junctures have a drill"
+  (testing "when two junctures have are drilled"
     (testing "when the diameters are the same"
       (let [board [:open-circuitry/board {:width 10, :height 10}
                    [:juncture {:x 1, :y 2, :drill 5}]
-                   [:juncture {:x 2, :y 3, :drill 5}]]]
+                   [:juncture {:x 2, :y 3, :drill 5}]]
+            holes (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)]
         (testing "they share one toolpath"
           (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")] board)))))
         (testing "the toolpath has two holes"
-          (is (= 2 (count (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)))))))))
+          (is (= 2 (count holes))))))))
