@@ -43,8 +43,8 @@
           holes        (:content (toolpath-with-id "drill-5mm" board))
           location1    (select-keys (:attrs (first holes)) [:cx :cy])
           location2    (select-keys (:attrs (second holes)) [:cx :cy])]
-      (testing "exists"
-        (exists (toolpath-with-id toolpath-id board)))
+      (testing "exists once and only once"
+        (is (= 1 (count (toolpaths-with-id toolpath-id board)))))
       (testing "contains only junctures that are drilled"
         (is (empty? (test/elements-by-selector 
                       [(enlive/attr= :id "drill-5mm")

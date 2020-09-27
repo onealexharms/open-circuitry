@@ -34,14 +34,19 @@
   (let [id (str "drill-" drill-diameter "mm")]
     (node [toolpath {:id id}] (drill-holes board drill-diameter))))
 
+(defn drill-diameters [board]
+  (->> (junctures board)
+    (map (fn [juncture]
+           (:drill (data/attributes juncture))))
+    distinct))
+
 (defn drill-toolpaths
   [board]
   (doseq [juncture (junctures board)]
     (needs-attribute juncture :x)
     (needs-attribute juncture :y))
-  (for [juncture (junctures board)]
-    (let [drill-diameter (:drill (data/attributes juncture))]
-      (drill-toolpath drill-diameter board))))
+  (for [drill-diameter (drill-diameters board)]
+    (drill-toolpath drill-diameter board)))
  
 (defn dali-rendering
   [board]
