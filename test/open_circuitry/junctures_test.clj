@@ -19,11 +19,8 @@
 (defn- toolpaths-with-id [toolpath-id board]
   (test/elements-by-selector [[:g (enlive/attr= :id toolpath-id)]] board))
 
-(defn- toolpath-of-type [toolpath-type]
-  (enlive/attr|= :id toolpath-type))
-
 (def hole-selector
-  [(toolpath-of-type "drill") :> :circle]) 
+  [(enlive/attr|= :id "drill") :> :circle])
 
 (defn- drill-hole-attributes [juncture-attributes]
   (test/attributes-by-selector hole-selector (board-with-juncture juncture-attributes)))
