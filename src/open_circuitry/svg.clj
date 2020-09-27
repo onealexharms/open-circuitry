@@ -20,6 +20,7 @@
 
 (defn junctures [board]
   (data/children board))
+    
 
 (defn drill-toolpaths
   [board]
@@ -28,11 +29,12 @@
     (needs-attribute drill-juncture :y)
     (let [drill-diameter (:drill (data/attributes drill-juncture))
           {:keys [x, y]} (data/attributes drill-juncture)
-          id             (str "drill-" drill-diameter "mm")]
-      [(vec (concat
-              [toolpath {:id id}]
-              (for [_ (junctures board)]
-                (drill-hole x y))))])))
+          id             (str "drill-" drill-diameter "mm")
+          drill-holes    (for [_ (junctures board)]
+                           (drill-hole x y))
+          drill-toolpath (vec (concat [toolpath {:id id}]
+                                      drill-holes))]
+      [drill-toolpath])))
  
 (defn dali-rendering
   [board]
