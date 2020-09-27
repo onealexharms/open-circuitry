@@ -55,7 +55,7 @@
       (let [board [:open-circuitry/board {:width 10, :height 10}
                    [:juncture {:x 1, :y 2, :drill 5}]
                    [:juncture {:x 2, :y 3, :drill 5}]]]
-        (testing "has one toolpath"
+        (testing "they share one toolpath"
           (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")] board)))))
-        (testing "has two holes"
+        (testing "the toolpath has two holes"
           (is (= 2 (count (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)))))))))
