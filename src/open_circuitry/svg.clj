@@ -20,7 +20,11 @@
 
 (defn junctures [board]
   (data/children board))
+
+
     
+(defn node [& collections]
+  (vec (apply concat collections)))
 
 (defn drill-toolpaths
   [board]
@@ -32,8 +36,7 @@
           id             (str "drill-" drill-diameter "mm")
           drill-holes    (for [_ (junctures board)]
                            (drill-hole x y))
-          drill-toolpath (vec (concat [toolpath {:id id}]
-                                      drill-holes))]
+          drill-toolpath (node [toolpath {:id id}] drill-holes)]
       [drill-toolpath])))
  
 (defn dali-rendering
@@ -41,10 +44,9 @@
   (needs-attribute board :width)
   (needs-attribute board :height)
   (let [{:keys [width height]} (data/attributes board)]
-    (vec (concat 
-           [:dali/page
-            {:width (str width "mm")
-             :height (str height "mm")
-             :view-box (str "0 0 " width " " height)}]
-           [(cutout-toolpath width height)]
-           (drill-toolpaths board)))))
+    (node
+      [:dali/page {:width (str width "mm")
+                   :height (str height "mm")
+                   :view-box (str "0 0 " width " " height)}]
+      [(cutout-toolpath width height)]
+      (drill-toolpaths board))))
