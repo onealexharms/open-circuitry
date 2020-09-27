@@ -18,5 +18,5 @@
 (defn element-by-selector [selector board]
   (first (elements-by-selector selector board)))
 
-(defn svg-attributes [board selector]
+(defn attributes-by-selector [selector board]
   (:attrs (element-by-selector selector board)))

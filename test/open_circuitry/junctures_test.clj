@@ -22,8 +22,7 @@
   [(toolpath-of-type "drill") :> :circle]) 
 
 (defn- drill-hole-attributes [juncture-attributes]
-  (test/svg-attributes (board-with-juncture juncture-attributes)
-                       hole-selector))
+  (test/attributes-by-selector hole-selector (board-with-juncture juncture-attributes)))
 
 (defn- center-of-drill-hole [juncture-attributes]
   (let [{:keys [cx cy]} (drill-hole-attributes juncture-attributes)]

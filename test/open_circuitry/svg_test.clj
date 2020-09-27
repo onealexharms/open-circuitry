@@ -7,7 +7,7 @@
 (deftest renders
   (testing "a 50x100 board"
     (let [board [:open-circuitry/board {:width 50 :height 100}]
-          {:keys [width height]} (test/svg-attributes board [:svg])]
+          {:keys [width height]} (test/attributes-by-selector [:svg] board)]
       (testing "as 50mm wide"
         (is (= "50mm" width)))
       (testing "as 100mm high"
@@ -15,7 +15,7 @@
 
   (testing "in millimeters"
     (let [board [:open-circuitry/board {:width 57 :height 142}]
-          {:keys [viewBox]} (test/svg-attributes board [:svg])]
+          {:keys [viewBox]} (test/attributes-by-selector [:svg] board)]
       (is (= "0 0 57 142" viewBox))))
   (testing "only if it has"
     (testing "a width"
@@ -36,19 +36,19 @@
      (is cutout-toolpath)))
   (testing "has a zero origin"
     (let [board [:open-circuitry/board {:width 10 :height 20}]
-          {:keys [x y]} (test/svg-attributes board [:g#cutout-toolpath :rect])]
+          {:keys [x y]} (test/attributes-by-selector [:g#cutout-toolpath :rect] board)]
       (is (= "0" x))
       (is (= "0" y))))
   (testing "size matches board size"
     (let [board [:open-circuitry/board {:width 10 :height 20}]
-          {:keys [width height]} (test/svg-attributes board [:g#cutout-toolpath :rect])]
+          {:keys [width height]} (test/attributes-by-selector [:g#cutout-toolpath :rect] board)]
       (is (= "10" width))
       (is (= "20" height))))
   (testing "has white fill"
     (let [board [:open-circuitry/board {:width 10 :height 20}]
-          {:keys [fill]} (test/svg-attributes board [:g#cutout-toolpath :rect])]
+          {:keys [fill]} (test/attributes-by-selector [:g#cutout-toolpath :rect] board)]
       (is (= "white" fill))))
   (testing "has visible stroke"
     (let [board [:open-circuitry/board {:width 10 :height 20}]
-          {:keys [stroke]} (test/svg-attributes board [:g#cutout-toolpath :rect])]
+          {:keys [stroke]} (test/attributes-by-selector [:g#cutout-toolpath :rect] board)]
       (is (= "cornflowerblue" stroke)))))
