@@ -21,8 +21,6 @@
 (defn junctures [board]
   (data/children board))
 
-
-    
 (defn node [& collections]
   (vec (apply concat collections)))
 
@@ -34,8 +32,9 @@
     (let [drill-diameter (:drill (data/attributes drill-juncture))
           {:keys [x, y]} (data/attributes drill-juncture)
           id             (str "drill-" drill-diameter "mm")
-          drill-holes    (for [_ (junctures board)]
-                           (drill-hole x y))
+          drill-holes    (for [juncture (junctures board)]
+                           (let [{:keys [x, y]} (data/attributes juncture)]
+                             (drill-hole x y)))
           drill-toolpath (node [toolpath {:id id}] drill-holes)]
       [drill-toolpath])))
  

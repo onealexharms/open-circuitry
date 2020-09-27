@@ -2,6 +2,7 @@
   (:require
     [clojure.test :refer [deftest testing is]]
     [net.cgrand.enlive-html :as enlive]
+    [open-circuitry.data-tree :as data]
     [open-circuitry.test-helpers :as test]
     [open-circuitry.svg :refer [dali-rendering]]))
 
@@ -49,14 +50,18 @@
         (is (thrown-with-msg? Exception
                               #"A juncture needs attribute: :y"
                               (dali-rendering (board-with-juncture {:x 418 :drill 4.8})))))))
-
+  
   (testing "when two junctures have are drilled"
     (testing "when the diameters are the same"
-      (let [board [:open-circuitry/board {:width 10, :height 10}
-                   [:juncture {:x 1, :y 2, :drill 5}]
-                   [:juncture {:x 2, :y 3, :drill 5}]]
-            holes (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)]
+      (let [board     [:open-circuitry/board {:width 10, :height 10}
+                       [:juncture {:x 1, :y 2, :drill 5}]
+                       [:juncture {:x 2, :y 3, :drill 5}]]
+            holes     (test/elements-by-selector [(toolpath-of-type "drill") :> :circle] board)
+            location1 (select-keys (:attrs (first holes)) [:cx :cy])
+            location2 (select-keys (:attrs (second holes)) [:cx :cy])]
         (testing "they share one toolpath"
           (is (= 1 (count (test/elements-by-selector [(toolpath-of-type "drill")] board)))))
         (testing "the toolpath has two holes"
-          (is (= 2 (count holes))))))))
+          (is (= 2 (count holes))))
+        (testing "the holes are in different places"
+          (is (not (= location1 location2))))))))
