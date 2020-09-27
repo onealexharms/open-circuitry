@@ -24,9 +24,9 @@
 (defn node [& collections]
   (vec (apply concat collections)))
 
-(defn drill-holes [board]
+(defn drill-holes [board diameter]
   (for [juncture (junctures board)
-        :when    (:drill (data/attributes juncture))]
+        :when    (= diameter (:drill (data/attributes juncture)))]
     (let [{:keys [x, y]} (data/attributes juncture)]
       (drill-hole x y))))
 
@@ -37,7 +37,8 @@
     (needs-attribute drill-juncture :y)
     (let [drill-diameter (:drill (data/attributes drill-juncture))
           id             (str "drill-" drill-diameter "mm")
-          drill-toolpath (node [toolpath {:id id}] (drill-holes board))]
+          drill-toolpath (node [toolpath {:id id}]
+                               (drill-holes board drill-diameter))]
       [drill-toolpath])))
  
 (defn dali-rendering
