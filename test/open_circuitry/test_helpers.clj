@@ -23,3 +23,10 @@
 
 (defn attributes-by-selector [selector board]
   (:attrs (element-by-selector selector board)))
+
+(defn toolpaths-with-id [toolpath-id board]
+  (elements-by-selector [[:g (enlive/attr=  :id toolpath-id)]] board))
+
+(defn location-selector [x y]
+  [[(enlive/attr= :cx (str x) (enlive/attr= :cy (str y)))]])
+

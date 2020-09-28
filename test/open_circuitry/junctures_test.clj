@@ -6,16 +6,6 @@
     [open-circuitry.test-helpers :refer :all]
     [open-circuitry.svg :refer [dali-rendering]]))
 
-(defn- board-with-juncture [juncture-attributes]
-  [:open-circuitry/board {:width 10, :height 10}
-   [:juncture juncture-attributes]])
-
-(defn- toolpaths-with-id [toolpath-id board]
-  (elements-by-selector [[:g (enlive/attr=  :id toolpath-id)]] board))
-
-(defn- location-selector [x y]
-  [[(enlive/attr= :cx (str x) (enlive/attr= :cy (str y)))]])
-
 (deftest a-drill-toolpath
   (testing "containing two 5mm drilled junctures"
     (let [toolpath-id       "drill-5mm"
@@ -58,9 +48,11 @@
     (testing "an x coordinate"
       (is (thrown-with-msg? Exception
                             #"A juncture needs attribute: :x"
-                            (dali-rendering (board-with-juncture {:y 6 :drill 22.7})))))
-    (testing "an y coordinate"
+                            (dali-rendering [:open-circuitry/board {:width 10, :height 10}
+                                             [:juncture {:y 6 :drill 22.7}]]))))
+    (testing "a y coordinate"
       (is (thrown-with-msg? Exception
                             #"A juncture needs attribute: :y"
-                            (dali-rendering (board-with-juncture {:x 418 :drill 4.8})))))))
+                            (dali-rendering [:open-circuitry/board {:width 10, :height 10}
+                                             [:juncture {:x 418 :drill 4.8}]]))))))
     
