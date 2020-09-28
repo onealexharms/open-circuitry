@@ -6,9 +6,6 @@
     [open-circuitry.test-helpers :as test]
     [open-circuitry.svg :refer [dali-rendering]]))
 
-(defmacro exists [thing]
-  `(is ~thing))
-
 (defn- board-with-juncture [juncture-attributes]
   [:open-circuitry/board {:width 10, :height 10}
    [:juncture juncture-attributes]])

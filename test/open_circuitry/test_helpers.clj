@@ -1,10 +1,13 @@
 (ns open-circuitry.test-helpers
   (:require
     [clojure.java.io :as io]
+    [clojure.test]
     [dali.io]
     [net.cgrand.enlive-html :as enlive]
     [open-circuitry.svg :refer [dali-rendering]]))
     
+(defmacro exists [thing]
+  `(clojure.test/is ~thing))
 
 (defn elements-by-selector [selector board]
   (-> board
