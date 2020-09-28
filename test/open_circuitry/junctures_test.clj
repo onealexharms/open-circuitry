@@ -14,7 +14,7 @@
    [:juncture juncture-attributes]])
 
 (defn- toolpaths-with-id [toolpath-id board]
-  (test/elements-by-selector [[:g (enlive/attr= :id toolpath-id)]] board))
+  (test/elements-by-selector [[:g (enlive/attr=  :id toolpath-id)]] board))
 
 (defn- toolpath-with-id [toolpath-id board]
   (first (toolpaths-with-id toolpath-id board)))
@@ -52,29 +52,22 @@
         (is (empty? (test/elements-by-selector
                       [toolpath-selector :> (location-selector 4 3)]
                       board))))
-      (testing "has two holes in different places"
+      (testing "has two holes"
         (is (= 2 (count holes)))
-        (is (not (= location1 location2))))))
+        (testing "at the junctures' locations"
+          (is (= {:cx "1", :cy "2"} location1))
+          (is (= {:cx "2", :cy "3"} location2)))
+        (testing "that accomodate LaserWeb's hole weirdness"
+          (is (= "0.02" (:r (:attrs (first holes)))))
+          (is (= "0.02" (:r (:attrs (second holes)))))))))
   (testing "for a board with only non-drilled junctures"
     (let [board [:open-circuitry/board {:width 10, :height 10}
                  [:juncture {:x 4, :y 3}]
                  [:juncture {:x 3, :y 7}]]]
       (testing "does not exist"
-        (is (empty? (test/elements-by-selector [(enlive/attr|= :id "drill")] board))))))) 
-
-(deftest a-rendered-board
-  (testing "when a juncture has a drill"
-    (testing "has a well-formed toolpath"
-      (exists (toolpath-with-id "drill-2.3mm" (board-with-juncture {:x 1, :y 2, :drill 2.3})))
-      (exists (not (toolpath-with-id "drill-1.9mm" (board-with-juncture {:x 2, :y 3, :drill 2.3}))))
-      (exists (toolpath-with-id "drill-1.9mm" (board-with-juncture {:x 1, :y 0, :drill 1.9}))))
-    (testing "creates a hole that accomodates LaserWeb's hole weirdness"
-      (exists (test/element-by-selector hole-selector (board-with-juncture {:x 11, :y 12, :drill 2.3})))
-      (is (= "0.02" (:r (drill-hole-attributes {:x 63, :y 65, :drill 2.3})))))
-    (testing "at the juncture's location"
-      (is (= ["5" "10"] (center-of-drill-hole {:x 5 :y 10
-                                               :drill 2.3}))))
-    (testing "only if it has"
+        (is (empty? (test/elements-by-selector [(enlive/attr|= :id "drill")] board)))))) 
+  (testing "defines holes"
+    (testing "that require" 
       (testing "an x coordinate"
         (is (thrown-with-msg? Exception
                               #"A juncture needs attribute: :x"
