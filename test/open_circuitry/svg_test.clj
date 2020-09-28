@@ -4,30 +4,27 @@
   [open-circuitry.test-helpers :as test]
   [open-circuitry.svg :refer [dali-rendering]]))
 
-(deftest renders
-  (testing "a 50x100 board"
+(deftest a-rendered-board
+  (testing "that's 50 x 100"
     (let [board [:open-circuitry/board {:width 50 :height 100}]
-          {:keys [width height]} (test/attributes-by-selector [:svg] board)]
-      (testing "as 50mm wide"
+          {:keys [width height viewBox]} (test/attributes-by-selector [:svg] board)]
+      (testing "is 50mm wide"
         (is (= "50mm" width)))
-      (testing "as 100mm high"
-        (is (= "100mm" height)))))
-
-  (testing "in millimeters"
-    (let [board [:open-circuitry/board {:width 57 :height 142}]
-          {:keys [viewBox]} (test/attributes-by-selector [:svg] board)]
-      (is (= "0 0 57 142" viewBox))))
-  (testing "only if it has"
-    (testing "a width"
-      (is (thrown-with-msg? Exception
-                            #"A board needs attribute: :width"
-                            (dali-rendering [:open-circuitry/board
-                                             {:height 7}]))))
-    (testing "a height"
-      (is (thrown-with-msg? Exception
-                            #"A board needs attribute: :height"
-                            (dali-rendering [:open-circuitry/board
-                                             {:width 9}]))))))
+      (testing "is 100mm high"
+        (is (= "100mm" height)))
+      (testing "is in millimeters"
+        (is (= "0 0 50 100" viewBox)))
+      (testing "has dimensions"
+        (testing "a width"
+          (is (thrown-with-msg? Exception
+                                #"A board needs attribute: :width"
+                                (dali-rendering [:open-circuitry/board
+                                                 {:height 7}]))))
+        (testing "a height"
+          (is (thrown-with-msg? Exception
+                                #"A board needs attribute: :height"
+                                (dali-rendering [:open-circuitry/board
+                                                 {:width 9}]))))))))
 
 (deftest cutout
   (testing "has a cutout toolpath"
