@@ -1,4 +1,4 @@
-(ns open-circuitry.svg-test
+(ns open-circuitry.rendered-board-test
  (:require
   [clojure.test :refer [deftest testing is]]
   [open-circuitry.test-helpers :as test]
