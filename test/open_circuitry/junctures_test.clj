@@ -16,11 +16,13 @@
 (defn- toolpaths-with-id [toolpath-id board]
   (test/elements-by-selector [[:g (enlive/attr=  :id toolpath-id)]] board))
 
+(defn- location-selector [x y]
+  [[(enlive/attr= :cx (str x) (enlive/attr= :cy (str y)))]])
+
 (deftest a-drill-toolpath
   (testing "containing two 5mm drilled junctures"
     (let [toolpath-id       "drill-5mm"
           toolpath-selector (enlive/attr= :id toolpath-id)
-          location-selector (fn [x y] [[(enlive/attr= :cx (str x) (enlive/attr= :cy (str y)))]])
           board             [:open-circuitry/board {:width 10, :height 10}
                              [:juncture {:x 4, :y 3, :drill 2}]
                              [:juncture {:x 1, :y 2, :drill 5}]
