@@ -3,7 +3,7 @@
     [clojure.test :refer [deftest testing is]]
     [net.cgrand.enlive-html :as enlive]
     [open-circuitry.data-tree :as data]
-    [open-circuitry.test-helpers :as test]
+    [open-circuitry.test-helpers :refer :all]
     [open-circuitry.svg :refer [dali-rendering]]))
 
 (defn- board-with-juncture [juncture-attributes]
@@ -11,7 +11,7 @@
    [:juncture juncture-attributes]])
 
 (defn- toolpaths-with-id [toolpath-id board]
-  (test/elements-by-selector [[:g (enlive/attr=  :id toolpath-id)]] board))
+  (elements-by-selector [[:g (enlive/attr=  :id toolpath-id)]] board))
 
 (defn- location-selector [x y]
   [[(enlive/attr= :cx (str x) (enlive/attr= :cy (str y)))]])
@@ -31,11 +31,11 @@
       (testing "exists once and only once"
         (is (= 1 (count (toolpaths-with-id toolpath-id board)))))
       (testing "contains only junctures that are drilled"
-        (is (empty? (test/elements-by-selector 
+        (is (empty? (elements-by-selector 
                       [toolpath-selector :> (location-selector 5 6)]
                       board))))
       (testing "does not contain junctures of a different diameter"
-        (is (empty? (test/elements-by-selector
+        (is (empty? (elements-by-selector
                       [toolpath-selector :> (location-selector 4 3)]
                       board))))
       (testing "has two holes"
@@ -51,7 +51,7 @@
                  [:juncture {:x 4, :y 3}]
                  [:juncture {:x 3, :y 7}]]]
       (testing "does not exist"
-        (is (empty? (test/elements-by-selector [(enlive/attr|= :id "drill")] board))))))) 
+        (is (empty? (elements-by-selector [(enlive/attr|= :id "drill")] board))))))) 
 
 (deftest a-juncture
   (testing "requires" 
