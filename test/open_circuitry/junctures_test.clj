@@ -65,15 +65,16 @@
                  [:juncture {:x 4, :y 3}]
                  [:juncture {:x 3, :y 7}]]]
       (testing "does not exist"
-        (is (empty? (test/elements-by-selector [(enlive/attr|= :id "drill")] board)))))) 
-  (testing "defines holes"
-    (testing "that require" 
-      (testing "an x coordinate"
-        (is (thrown-with-msg? Exception
-                              #"A juncture needs attribute: :x"
-                              (dali-rendering (board-with-juncture {:y 6 :drill 22.7})))))
-      (testing "an y coordinate"
-        (is (thrown-with-msg? Exception
-                              #"A juncture needs attribute: :y"
-                              (dali-rendering (board-with-juncture {:x 418 :drill 4.8}))))))))
+        (is (empty? (test/elements-by-selector [(enlive/attr|= :id "drill")] board))))))) 
+
+(deftest a-juncture
+  (testing "requires" 
+    (testing "an x coordinate"
+      (is (thrown-with-msg? Exception
+                            #"A juncture needs attribute: :x"
+                            (dali-rendering (board-with-juncture {:y 6 :drill 22.7})))))
+    (testing "an y coordinate"
+      (is (thrown-with-msg? Exception
+                            #"A juncture needs attribute: :y"
+                            (dali-rendering (board-with-juncture {:x 418 :drill 4.8})))))))
     
