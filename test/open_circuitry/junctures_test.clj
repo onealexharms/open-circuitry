@@ -16,19 +16,6 @@
 (defn- toolpaths-with-id [toolpath-id board]
   (test/elements-by-selector [[:g (enlive/attr=  :id toolpath-id)]] board))
 
-(defn- toolpath-with-id [toolpath-id board]
-  (first (toolpaths-with-id toolpath-id board)))
-
-(def hole-selector
-  [(enlive/attr|= :id "drill") :> :circle])
-
-(defn- drill-hole-attributes [juncture-attributes]
-  (test/attributes-by-selector hole-selector (board-with-juncture juncture-attributes)))
-
-(defn- center-of-drill-hole [juncture-attributes]
-  (let [{:keys [cx cy]} (drill-hole-attributes juncture-attributes)]
-    [cx cy]))
-
 (deftest a-drill-toolpath
   (testing "containing two 5mm drilled junctures"
     (let [toolpath-id       "drill-5mm"
@@ -39,7 +26,7 @@
                              [:juncture {:x 1, :y 2, :drill 5}]
                              [:juncture {:x 2, :y 3, :drill 5}]
                              [:juncture {:x 5, :y 6}]]
-          holes             (:content (toolpath-with-id "drill-5mm" board))
+          holes             (:content (first (toolpaths-with-id "drill-5mm" board)))
           location1         (select-keys (:attrs (first holes)) [:cx :cy])
           location2         (select-keys (:attrs (second holes)) [:cx :cy])]
       (testing "exists once and only once"
