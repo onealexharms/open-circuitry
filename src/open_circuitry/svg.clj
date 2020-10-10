@@ -18,12 +18,14 @@
             :dali/z-index -99}
      [0 0] [width height]]])
 
-(def ^:private isolation-toolpath
-  [:g#isolation-toolpath
-   "dummy text so dali doesn't delete"])
-
 (defn junctures [board]
   (data/children board))
+
+(defn isolation-toolpath [board]
+  [:g#isolation-toolpath
+   (if (not (empty? (junctures board)))
+     [:line {:x1 0, :y1 0, :x2 1, :y2 1}]
+     "dummy text so dali doesn't delete")])
 
 (defn node [& collections]
   (vec (apply concat collections)))
@@ -63,5 +65,5 @@
                    :height (str height "mm")
                    :view-box (str "0 0 " width " " height)}]
       [(cutout-toolpath width height)
-       isolation-toolpath]
+       (isolation-toolpath board)]
       (drill-toolpaths board))))
