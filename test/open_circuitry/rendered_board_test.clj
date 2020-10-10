@@ -24,13 +24,14 @@
       (is (thrown-with-msg? Exception
                             #"A board needs attribute: :height"
                             (dali-rendering [:open-circuitry/board
-                                             {:width 9}]))))))
-
-(deftest the-cutout-toolpath
-  (testing "exists"
+                                             {:width 9}])))))
+  (testing "has toolpaths:"
     (let [board [:open-circuitry/board {:width 10 :height 10}]
           cutout-toolpath (element-by-selector [:g#cutout-toolpath] board)]
-     (exists cutout-toolpath)))
+      (testing "cutout"
+        (exists cutout-toolpath)))))
+
+(deftest the-cutout-toolpath
   (testing "has a zero origin"
     (let [board [:open-circuitry/board {:width 10 :height 20}]
           {:keys [x y]} (attributes-by-selector [:g#cutout-toolpath :rect] board)]
