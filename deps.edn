@@ -1,6 +1,7 @@
 {:paths ["src"]
  :deps
- {dali {:mvn/version "1.0.2"}}
+ {dali {:mvn/version "1.0.2"}
+  org.kynosarges/tektosyne {:mvn/version "6.2.0"}}
  :aliases
  {:test {:extra-paths ["test/main/clojure"]
          :extra-deps  {lambdaisland/kaocha {:mvn/version "0.0-529"}}
