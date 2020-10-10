@@ -20,7 +20,7 @@
 
 (def ^:private isolation-toolpath
   [:g#isolation-toolpath
-   "dummy content"])
+   "dummy text so dali doesn't delete"])
 
 (defn junctures [board]
   (data/children board))
