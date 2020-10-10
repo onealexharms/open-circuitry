@@ -27,9 +27,12 @@
                                              {:width 9}])))))
   (testing "has toolpaths:"
     (let [board [:open-circuitry/board {:width 10 :height 10}]
-          cutout-toolpath (element-by-selector [:g#cutout-toolpath] board)]
+          cutout-toolpath (element-by-selector [:g#cutout-toolpath] board)
+          isolation-toolpath (element-by-selector [:g#isolation-toolpath] board)]
       (testing "cutout"
-        (exists cutout-toolpath)))))
+        (exists cutout-toolpath))
+      (testing "isolation"
+        (exists isolation-toolpath)))))
 
 (deftest the-cutout-toolpath
   (testing "has a zero origin"

@@ -18,6 +18,10 @@
             :dali/z-index -99}
      [0 0] [width height]]])
 
+(def ^:private isolation-toolpath
+  [:g#isolation-toolpath
+   "dummy content"])
+
 (defn junctures [board]
   (data/children board))
 
@@ -58,5 +62,6 @@
       [:dali/page {:width (str width "mm")
                    :height (str height "mm")
                    :view-box (str "0 0 " width " " height)}]
-      [(cutout-toolpath width height)]
+      [(cutout-toolpath width height)
+       isolation-toolpath]
       (drill-toolpaths board))))
