@@ -39,8 +39,8 @@
                        (LineD. right bottom left bottom)
                        (LineD. left bottom left top)])))
 
-(defn juncture->PointD [juncture]
-  (PointD. (first juncture) (last juncture)))
+(defn juncture->PointD [[x y]]
+  (PointD. x y))
 
 (defn isolation-LineDs [board]
   (->> (elements-by-selector [:#isolation-toolpath :> :line] board)
