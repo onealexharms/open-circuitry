@@ -39,9 +39,6 @@
                        (LineD. right bottom left bottom)
                        (LineD. left bottom left top)])))
 
-(defn juncture->PointD [[x y]]
-  (PointD. x y))
-
 (defn isolation-LineDs [board]
   (->> (elements-by-selector [:#isolation-toolpath :> :line] board)
        (map line->LineD) 
@@ -51,8 +48,8 @@
   (let [cutout          (Subdivision/fromLines (cutout-LineDs board) 0.001)
         isolation-lines (Subdivision/fromLines (isolation-LineDs board) 0.001)
         divided-plane   (.division (Subdivision/intersection cutout isolation-lines)) 
-        face            (fn [juncture]
-                          (.findFace divided-plane (juncture->PointD juncture)))]
+        face            (fn [[x y]]
+                          (.findFace divided-plane (PointD. x y)))]
     (not (identical? (face juncture1) (face juncture2)))))
   
 (deftest junctures
