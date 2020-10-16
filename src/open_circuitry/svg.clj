@@ -24,7 +24,7 @@
 (defn isolation-toolpath [board]
   [:g#isolation-toolpath
    (if (not (empty? (junctures board)))
-     [:line {:x1 0, :y1 0, :x2 1, :y2 1}]
+     [:line {:x1 3, :y1 0, :x2 3, :y2 20}]
      "dummy text so dali doesn't delete")])
 
 (defn node [& collections]
