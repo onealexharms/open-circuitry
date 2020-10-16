@@ -30,18 +30,14 @@
 (defn cutout-LineDs [board]
   (let [rectangle (element-by-selector [:#cutout-toolpath :> :rect] board)
         {:keys [x y width height]} (:attrs rectangle)
-        top         y
-        right       (str (+ (read-string x) (read-string width)))
-        bottom      (str (+ (read-string y) (read-string height)))
-        left        x
-        top-line    {:x1 left, :y1 top, :x2 right, :y2 top} 
-        right-line  {:x1 right, :y1 top, :x2 right, :y2 bottom} 
-        bottom-line {:x1 right, :y1 bottom, :x2 left, :y2 bottom}
-        left-line   {:x1 left, :y1 bottom, :x2 left, :y2 top}]
-    (into-array LineD [(line->LineD {:tag :line, :attrs top-line})
-                       (line->LineD {:tag :line, :attrs right-line})
-                       (line->LineD {:tag :line, :attrs bottom-line})
-                       (line->LineD {:tag :line, :attrs left-line})]))) 
+        top         (read-string y)
+        right       (+ (read-string x) (read-string width))
+        bottom      (+ (read-string y) (read-string height))
+        left        (read-string x)]
+    (into-array LineD [(LineD. left top right top)
+                       (LineD. right top left bottom)
+                       (LineD. right bottom left bottom)
+                       (LineD. left bottom left top)])))
 
 (defn juncture->PointD [juncture]
   (PointD. (first juncture) (last juncture)))
