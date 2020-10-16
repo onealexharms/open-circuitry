@@ -56,9 +56,9 @@
   (let [cutout          (Subdivision/fromLines (cutout-LineDs board) 0.001)
         isolation-lines (Subdivision/fromLines (isolation-LineDs board) 0.001)
         divided-plane   (.division (Subdivision/intersection cutout isolation-lines)) 
-        face1           (.findFace divided-plane (juncture->PointD juncture1))
-        face2           (.findFace divided-plane (juncture->PointD juncture2))]
-    (not (identical? face1 face2))))
+        face            (fn [juncture]
+                          (.findFace divided-plane (juncture->PointD juncture)))]
+    (not (identical? (face juncture1) (face juncture2)))))
   
 (deftest junctures
   (testing "that aren't connected"
