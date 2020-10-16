@@ -21,11 +21,10 @@
         (is (not (empty? cuts)))))))
 
 (defn line->LineD [line]
-  (let [x1 (read-string (:x1 (:attrs line)))
-        y1 (read-string (:y1 (:attrs line)))
-        x2 (read-string (:x2 (:attrs line)))
-        y2 (read-string (:y2 (:attrs line)))]
-    (LineD. x1 y1 x2 y2)))
+  (LineD. (read-string (:x1 (:attrs line)))
+          (read-string (:y1 (:attrs line)))
+          (read-string (:x2 (:attrs line)))
+          (read-string (:y2 (:attrs line)))))
 
 (defn cutout-LineDs [board]
   (let [rectangle (element-by-selector [:#cutout-toolpath :> :rect] board)
