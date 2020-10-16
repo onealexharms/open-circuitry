@@ -38,11 +38,11 @@
         right-line  {:x1 right, :y1 top, :x2 right, :y2 bottom} 
         bottom-line {:x1 right, :y1 bottom, :x2 left, :y2 bottom}
         left-line   {:x1 left, :y1 bottom, :x2 left, :y2 top}]
-    (map line->LineD 
-      [{:tag :line, :attrs top-line}
-       {:tag :line, :attrs right-line}
-       {:tag :line, :attrs bottom-line}
-       {:tag :line, :attrs left-line}]))) 
+    (into-array LineD (map line->LineD 
+                       [{:tag :line, :attrs top-line}
+                        {:tag :line, :attrs right-line}
+                        {:tag :line, :attrs bottom-line}
+                        {:tag :line, :attrs left-line}])))) 
 
 (defn juncture->PointD [juncture]
   (PointD. (first juncture) (last juncture)))
@@ -50,10 +50,10 @@
 (defn isolation-LineDs [board]
   (let [isolation-lines (elements-by-selector [:#isolation-toolpath :> :line] board)
         LineDs          (map line->LineD isolation-lines)]
-     (into-array LineD LineDs)))
+    (into-array LineD LineDs)))
   
 (defn isolated? [juncture1 juncture2 board]
-  (let [cutout           (Subdivision/fromLines (into-array LineD (cutout-LineDs board)) 0.001)
+  (let [cutout           (Subdivision/fromLines (cutout-LineDs board) 0.001)
         isolation-lines  (Subdivision/fromLines (isolation-LineDs board) 0.001)
         divided-plane    (.division (Subdivision/intersection cutout isolation-lines)) 
         juncture1-PointD (juncture->PointD juncture1)
