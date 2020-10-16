@@ -53,14 +53,12 @@
     (into-array LineD LineDs)))
   
 (defn isolated? [juncture1 juncture2 board]
-  (let [cutout           (Subdivision/fromLines (cutout-LineDs board) 0.001)
-        isolation-lines  (Subdivision/fromLines (isolation-LineDs board) 0.001)
-        divided-plane    (.division (Subdivision/intersection cutout isolation-lines)) 
-        juncture1-PointD (juncture->PointD juncture1)
-        juncture2-PointD (juncture->PointD juncture2)
-        face             (.findFace divided-plane juncture1-PointD)
-        nother-face      (.findFace divided-plane juncture2-PointD)]
-    (not (identical? face nother-face))))
+  (let [cutout          (Subdivision/fromLines (cutout-LineDs board) 0.001)
+        isolation-lines (Subdivision/fromLines (isolation-LineDs board) 0.001)
+        divided-plane   (.division (Subdivision/intersection cutout isolation-lines)) 
+        face1           (.findFace divided-plane (juncture->PointD juncture1))
+        face2           (.findFace divided-plane (juncture->PointD juncture2))]
+    (not (identical? face1 face2))))
   
 (deftest junctures
   (testing "that aren't connected"
