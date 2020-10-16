@@ -43,9 +43,9 @@
   (PointD. (first juncture) (last juncture)))
 
 (defn isolation-LineDs [board]
-  (let [isolation-lines (elements-by-selector [:#isolation-toolpath :> :line] board)
-        LineDs          (map line->LineD isolation-lines)]
-    (into-array LineD LineDs)))
+  (->> (elements-by-selector [:#isolation-toolpath :> :line] board)
+       (map line->LineD) 
+       (into-array LineD)))
 
 (defn isolated? [juncture1 juncture2 board]
   (let [cutout          (Subdivision/fromLines (cutout-LineDs board) 0.001)
