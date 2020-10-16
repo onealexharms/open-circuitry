@@ -44,20 +44,16 @@
        {:tag :line, :attrs bottom-line}
        {:tag :line, :attrs left-line}]))) 
 
-(defn isolation-lines [board]
-  (elements-by-selector [:#isolation-toolpath :> :line] board))
-
 (defn juncture->PointD [juncture]
   (PointD. (first juncture) (last juncture)))
 
 (defn isolation-LineDs [board]
-  (let [isolation-lines (isolation-lines board)
+  (let [isolation-lines (elements-by-selector [:#isolation-toolpath :> :line] board)
         LineDs          (map line->LineD isolation-lines)]
-    (into-array LineD LineDs)))
+     (into-array LineD LineDs)))
   
 (defn isolated? [juncture1 juncture2 board]
-  (let [
-        cutout           (Subdivision/fromLines (into-array LineD (cutout-LineDs board)) 0.001)
+  (let [cutout           (Subdivision/fromLines (into-array LineD (cutout-LineDs board)) 0.001)
         isolation-lines  (Subdivision/fromLines (isolation-LineDs board) 0.001)
         divided-plane    (.division (Subdivision/intersection cutout isolation-lines)) 
         juncture1-PointD (juncture->PointD juncture1)
