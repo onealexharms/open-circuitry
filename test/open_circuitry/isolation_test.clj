@@ -30,10 +30,10 @@
 (defn cutout-LineDs [board]
   (let [rectangle (element-by-selector [:#cutout-toolpath :> :rect] board)
         {:keys [x y width height]} (:attrs rectangle)
+        left        (read-string x)
         top         (read-string y)
-        right       (+ (read-string x) (read-string width))
-        bottom      (+ (read-string y) (read-string height))
-        left        (read-string x)]
+        right       (+ left (read-string width))
+        bottom      (+ top (read-string height))]
     (into-array LineD [(LineD. left top right top)
                        (LineD. right top left bottom)
                        (LineD. right bottom left bottom)
