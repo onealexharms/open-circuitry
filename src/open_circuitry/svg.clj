@@ -45,11 +45,14 @@
 (defn cutout-RectD [board]
   (let [{:keys [width height]} (data/attributes board)]
     (RectD. (PointD. 0 0) (PointD. width height))))
-  
+
+(defn junctures-as-PointDs [board]
+  (->> (junctures board)
+    (map juncture->PointD)
+    (into-array PointD)))
+
 (defn isolation-toolpath [board]
-  (let [points (->> (junctures board)
-                    (map juncture->PointD)
-                    (into-array PointD))
+  (let [points (junctures-as-PointDs board)
         cuts   (isolation-cuts points (cutout-RectD board))]
     (node [:g#isolation-toolpath]
           (if (empty? cuts)
