@@ -34,7 +34,7 @@
         right       (+ left (read-string width))
         bottom      (+ top (read-string height))]
     (into-array LineD [(LineD. left top right top)
-                       (LineD. right top left bottom)
+                       (LineD. right top right bottom)
                        (LineD. right bottom left bottom)
                        (LineD. left bottom left top)])))
 
