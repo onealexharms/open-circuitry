@@ -42,13 +42,15 @@
    (let [[x y] (:at (data/attributes juncture))]
      (PointD. x y)))
 
+(defn cutout-RectD [board]
+  (let [{:keys [width height]} (data/attributes board)]
+    (RectD. (PointD. 0 0) (PointD. width height))))
+  
 (defn isolation-toolpath [board]
-  (let [{:keys [width height]} (data/attributes board)
-        bounds (RectD. (PointD. 0 0) (PointD. width height))
-        points (->> (junctures board)
+  (let [points (->> (junctures board)
                     (map juncture->PointD)
                     (into-array PointD))
-        cuts   (isolation-cuts points bounds)]
+        cuts   (isolation-cuts points (cutout-RectD board))]
     (node [:g#isolation-toolpath]
           (if (empty? cuts)
             ["dummy text so dali doesn't delete"]
