@@ -33,7 +33,7 @@
 (defn drill-holes [board diameter]
   (for [juncture (junctures board)
         :when    (= diameter (:drill (data/attributes juncture)))]
-    (let [{:keys [x, y]} (data/attributes juncture)]
+    (let [[x y] (:at (data/attributes juncture))]
       (drill-hole x y))))
 
 (defn drill-toolpath [drill-diameter board]
@@ -50,8 +50,7 @@
 (defn drill-toolpaths
   [board]
   (doseq [juncture (junctures board)]
-    (needs-attribute juncture :x)
-    (needs-attribute juncture :y))
+    (needs-attribute juncture :at))
   (for [drill-diameter (drill-diameters board)]
     (drill-toolpath drill-diameter board)))
  

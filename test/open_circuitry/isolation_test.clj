@@ -15,8 +15,8 @@
   (testing "for a board with two unconnected junctures"
     (testing "has isolation cuts"
       (let [board [:open-circuitry/board {:width 10 :height 20}
-                   [:juncture {:x 2, :y 2}]
-                   [:juncture {:x 5, :y 5}]]
+                   [:juncture {:at [2 2]}]
+                   [:juncture {:at [5 5]}]]
             cuts (elements-by-selector [:#isolation-toolpath :> :line] board)]
         (is (not (empty? cuts)))))))
 
@@ -55,6 +55,6 @@
   (testing "that aren't connected"
     (testing "are isolated"
       (let [board [:open-circuitry/board {:width 10 :height 20}
-                   [:juncture {:x 2, :y 2 :trace "GND"}]
-                   [:juncture {:x 5, :y 5 :trace "+5v"}]]]
+                   [:juncture {:at [2 2], :trace "GND"}]
+                   [:juncture {:at [5 5], :trace "+5v"}]]]
         (is (isolated? [2 2] [5 5] board))))))

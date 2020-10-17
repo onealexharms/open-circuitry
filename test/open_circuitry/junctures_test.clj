@@ -11,10 +11,10 @@
     (let [toolpath-id       "drill-5mm"
           toolpath-selector (enlive/attr= :id toolpath-id)
           board             [:open-circuitry/board {:width 10, :height 10}
-                             [:juncture {:x 4, :y 3, :drill 2}]
-                             [:juncture {:x 1, :y 2, :drill 5}]
-                             [:juncture {:x 2, :y 3, :drill 5}]
-                             [:juncture {:x 5, :y 6}]]
+                             [:juncture {:at [4 3], :drill 2}]
+                             [:juncture {:at [1 2], :drill 5}]
+                             [:juncture {:at [2 3], :drill 5}]
+                             [:juncture {:at [5 6]}]]
           holes             (:content (first (toolpaths-with-id "drill-5mm" board)))
           location1         (select-keys (:attrs (first holes)) [:cx :cy])
           location2         (select-keys (:attrs (second holes)) [:cx :cy])]
@@ -38,21 +38,15 @@
           (is (= "0.02" (:r (:attrs (second holes)))))))))
   (testing "for a board with only non-drilled junctures"
     (let [board [:open-circuitry/board {:width 10, :height 10}
-                 [:juncture {:x 4, :y 3}]
-                 [:juncture {:x 3, :y 7}]]]
+                 [:juncture {:at [4 3]}]
+                 [:juncture {:at [3 7]}]]]
       (testing "does not exist"
         (is (empty? (elements-by-selector [(enlive/attr|= :id "drill")] board))))))) 
 
 (deftest a-juncture
   (testing "requires" 
-    (testing "an x coordinate"
+    (testing "a position"
       (is (thrown-with-msg? Exception
-                            #"A juncture needs attribute: :x"
+                            #"A juncture needs attribute: :at"
                             (dali-rendering [:open-circuitry/board {:width 10, :height 10}
-                                             [:juncture {:y 6 :drill 22.7}]]))))
-    (testing "a y coordinate"
-      (is (thrown-with-msg? Exception
-                            #"A juncture needs attribute: :y"
-                            (dali-rendering [:open-circuitry/board {:width 10, :height 10}
-                                             [:juncture {:x 418 :drill 4.8}]]))))))
-    
+                                             [:juncture {:drill 22.7}]]))))))
