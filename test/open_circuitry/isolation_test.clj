@@ -54,7 +54,9 @@
 (deftest junctures
   (testing "that aren't connected"
     (testing "are isolated"
-      (let [board [:open-circuitry/board {:width 10 :height 20}
-                   [:juncture {:at [2 2], :trace "GND"}]
-                   [:juncture {:at [5 5], :trace "+5v"}]]]
-        (is (isolated? [2 2] [5 5] board))))))
+      (let [GND-coordinates [2 2]
+            VCC-coordinates [5 5]
+            board           [:open-circuitry/board {:width 10 :height 20}
+                             [:juncture {:at GND-coordinates, :trace "GND"}]
+                             [:juncture {:at VCC-coordinates, :trace "VCC"}]]]
+        (is (isolated? GND-coordinates VCC-coordinates board))))))
