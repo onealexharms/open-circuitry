@@ -4,6 +4,9 @@
   (:import
    (org.kynosarges.tektosyne.geometry PointD RectD Voronoi)))
 
+(defn node [& collections]
+  (vec (apply concat collections)))
+
 (defn drill-hole [x y]
   [:circle {:cx x :cy y :r 0.02}])
 
@@ -35,22 +38,21 @@
                 :x2 (.x vertex2)
                 :y2 (.y vertex2)}]))))
 
+(defn juncture->PointD [juncture]
+   (let [[x y] (:at (data/attributes juncture))]
+     (PointD. x y)))
+
 (defn isolation-toolpath [board]
   (let [{:keys [width height]} (data/attributes board)
         bounds (RectD. (PointD. 0 0) (PointD. width height))
         points (->> (junctures board)
-                    (map (fn [juncture]
-                           (let [[x y] (:at (data/attributes juncture))]
-                             (PointD. x y))))
+                    (map juncture->PointD)
                     (into-array PointD))
         cuts   (isolation-cuts points bounds)]
-    (into [:g#isolation-toolpath]
+    (node [:g#isolation-toolpath]
           (if (empty? cuts)
             ["dummy text so dali doesn't delete"]
             cuts))))
-
-(defn node [& collections]
-  (vec (apply concat collections)))
 
 (defn drill-holes [board diameter]
   (for [juncture (junctures board)
