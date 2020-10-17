@@ -26,34 +26,35 @@
 (defn junctures [board]
   (data/children board))
 
-(defn- isolation-cuts [points bounds]
-  (if (> (count points) 1)
-    (let [voronoi  (Voronoi/findAll points bounds)
-          vertices (.voronoiVertices voronoi)]
-      (for [edge (.voronoiEdges voronoi)
-            :let [vertex1 (get vertices (.vertex1 edge))
-                  vertex2 (get vertices (.vertex2 edge))]]
-        [:line {:x1 (.x vertex1)
-                :y1 (.y vertex1)
-                :x2 (.x vertex2)
-                :y2 (.y vertex2)}]))))
+(defn cutout-RectD [board]
+  (let [{:keys [width height]} (data/attributes board)]
+    (RectD. (PointD. 0 0) (PointD. width height))))
 
 (defn juncture->PointD [juncture]
    (let [[x y] (:at (data/attributes juncture))]
      (PointD. x y)))
-
-(defn cutout-RectD [board]
-  (let [{:keys [width height]} (data/attributes board)]
-    (RectD. (PointD. 0 0) (PointD. width height))))
 
 (defn junctures-as-PointDs [board]
   (->> (junctures board)
     (map juncture->PointD)
     (into-array PointD)))
 
-(defn isolation-toolpath [board]
+(defn- isolation-cuts [board]
   (let [points (junctures-as-PointDs board)
-        cuts   (isolation-cuts points (cutout-RectD board))]
+        bounds (cutout-RectD board)]
+    (if (> (count points) 1)
+      (let [voronoi  (Voronoi/findAll points bounds)
+            vertices (.voronoiVertices voronoi)]
+        (for [edge (.voronoiEdges voronoi)
+              :let [vertex1 (get vertices (.vertex1 edge))
+                    vertex2 (get vertices (.vertex2 edge))]]
+          [:line {:x1 (.x vertex1)
+                  :y1 (.y vertex1)
+                  :x2 (.x vertex2)
+                  :y2 (.y vertex2)}])))))
+
+(defn isolation-toolpath [board]
+  (let [cuts (isolation-cuts board)]
     (node [:g#isolation-toolpath]
           (if (empty? cuts)
             ["dummy text so dali doesn't delete"]
