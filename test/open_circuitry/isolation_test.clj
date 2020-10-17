@@ -54,7 +54,7 @@
 (deftest junctures
   (testing "that aren't connected"
     (testing "are isolated"
-      (let [GND-coordinates [2 2]
+      (let [GND-coordinates [7 8]
             VCC-coordinates [5 5]
             board           [:open-circuitry/board {:width 10 :height 20}
                              [:juncture {:at GND-coordinates, :trace "GND"}]
