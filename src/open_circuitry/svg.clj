@@ -26,7 +26,8 @@
 (defn junctures [board]
   (data/children board))
 
-(defn voronoi [points [[x y] [width height]]]
+(defn voronoi
+  [points [[x y] [width height]]]
   (let [PointDs      (into-array PointD (map (fn [[x y]]
                                                (PointD. x y))
                                              points))
@@ -38,8 +39,8 @@
                                      [(.x vertex) (.y vertex)])
                                    voronoi-vertices))
         edges            (vec (map (fn [edge]
-                                     {:start (.vertex1 edge)
-                                      :end   (.vertex2 edge)})
+                                     {:start (get vertices (.vertex1 edge))
+                                      :end   (get vertices (.vertex2 edge))})
                                    voronoi-edges))]
     {:vertices vertices
      :edges    edges}))
@@ -54,11 +55,10 @@
   (let [points (juncture-points board)]
     (if (> (count points) 1)
       (let [{:keys [width height]} (data/attributes board)
-            voronoi  (voronoi points [[0 0] [width height]])
-            vertices (:vertices voronoi)]
+            voronoi  (voronoi points [[0 0] [width height]])]
         (for [edge (:edges voronoi)
-              :let [[start-x start-y] (get vertices (:start edge))
-                    [end-x end-y]     (get vertices (:end edge))]]
+              :let [[start-x start-y] (:start edge)
+                    [end-x end-y]     (:end edge)]]
           [:line {:x1 start-x
                   :y1 start-y
                   :x2 end-x
