@@ -39,11 +39,14 @@
     (map juncture->PointD)
     (into-array PointD)))
 
+(defn voronoi [points bounds]
+  (Voronoi/findAll points bounds))
+
 (defn- isolation-cuts [board]
   (let [points (junctures-as-PointDs board)
         bounds (cutout-RectD board)]
     (if (> (count points) 1)
-      (let [voronoi  (Voronoi/findAll points bounds)
+      (let [voronoi  (voronoi points bounds)
             vertices (.voronoiVertices voronoi)]
         (for [edge (.voronoiEdges voronoi)
               :let [vertex1 (get vertices (.vertex1 edge))
