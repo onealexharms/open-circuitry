@@ -39,10 +39,12 @@
   (let [PointDs      (into-array PointD (map (fn [[x y]]
                                                (PointD. x y))
                                              points))
-        bounds       (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))
-        voronoi-data (Voronoi/findAll PointDs bounds)]
-    {:vertices (into [] (.voronoiVertices voronoi-data))
-     :edges    (into [] (.voronoiEdges voronoi-data))}))
+        bounds           (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))
+        voronoi-object   (Voronoi/findAll PointDs bounds)
+        voronoi-vertices (.voronoiVertices voronoi-object)
+        voronoi-edges    (.voronoiEdges voronoi-object)]
+    {:vertices (into [] voronoi-vertices)
+     :edges    (into [] voronoi-edges)}))
 
 (defn- juncture-point [juncture]
   (:at (data/attributes juncture)))
