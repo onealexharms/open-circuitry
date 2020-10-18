@@ -36,9 +36,13 @@
         voronoi-edges    (.voronoiEdges voronoi-object)
         vertices         (map (fn [^PointD vertex]
                                 [(.x vertex) (.y vertex)])
-                              voronoi-vertices)]
+                              voronoi-vertices)
+        edges            (map (fn [edge]
+                                {:vertex-1 (.vertex1 edge)
+                                 :vertex-2 (.vertex2 edge)}) 
+                              voronoi-edges)]
     {:vertices (into [] vertices)
-     :edges    (into [] voronoi-edges)}))
+     :edges    (into [] edges)}))
 
 (defn- juncture-point [juncture]
   (:at (data/attributes juncture)))
@@ -53,8 +57,8 @@
             voronoi  (voronoi points [[0 0] [width height]])
             vertices (:vertices voronoi)]
         (for [edge (:edges voronoi)
-              :let [[start-x start-y] (get vertices (.vertex1 edge))
-                    [end-x end-y]     (get vertices (.vertex2 edge))]]
+              :let [[start-x start-y] (get vertices (:vertex-1 edge))
+                    [end-x end-y]     (get vertices (:vertex-2 edge))]]
           [:line {:x1 start-x
                   :y1 start-y
                   :x2 end-x
