@@ -34,15 +34,15 @@
         voronoi-object   (Voronoi/findAll PointDs bounds)
         voronoi-vertices (.voronoiVertices voronoi-object)
         voronoi-edges    (.voronoiEdges voronoi-object)
-        vertices         (map (fn [^PointD vertex]
-                                [(.x vertex) (.y vertex)])
-                              voronoi-vertices)
-        edges            (map (fn [edge]
-                                {:start (.vertex1 edge)
-                                 :end   (.vertex2 edge)}) 
-                              voronoi-edges)]
-    {:vertices (into [] vertices)
-     :edges    (into [] edges)}))
+        vertices         (vec (map (fn [^PointD vertex]
+                                     [(.x vertex) (.y vertex)])
+                                   voronoi-vertices))
+        edges            (vec (map (fn [edge]
+                                     {:start (.vertex1 edge)
+                                      :end   (.vertex2 edge)})
+                                   voronoi-edges))]
+    {:vertices vertices
+     :edges    edges}))
 
 (defn- juncture-point [juncture]
   (:at (data/attributes juncture)))
