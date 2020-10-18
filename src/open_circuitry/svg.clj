@@ -36,11 +36,20 @@
     (into-array PointD)))
 
 (defn voronoi [points [[x y] [width height]]]
-  (let [bounds (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))]
-    (Voronoi/findAll points bounds)))
+  (let [PointDs (into-array PointD (map (fn [[x y]]
+                                          (PointD. x y))
+                                        points))
+        bounds  (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))]
+    (Voronoi/findAll PointDs bounds)))
+
+(defn- juncture-point [juncture]
+  (:at (data/attributes juncture)))
+
+(defn- juncture-points [board]
+  (map juncture-point (junctures board)))
 
 (defn- isolation-cuts [board]
-  (let [points (junctures-as-PointDs board)]
+  (let [points (juncture-points board)]
     (if (> (count points) 1)
       (let [{:keys [width height]} (data/attributes board)
             voronoi  (voronoi points [[0 0] [width height]])
