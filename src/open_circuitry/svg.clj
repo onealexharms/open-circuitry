@@ -33,8 +33,11 @@
         bounds           (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))
         voronoi-object   (Voronoi/findAll PointDs bounds)
         voronoi-vertices (.voronoiVertices voronoi-object)
-        voronoi-edges    (.voronoiEdges voronoi-object)]
-    {:vertices (into [] voronoi-vertices)
+        voronoi-edges    (.voronoiEdges voronoi-object)
+        vertices         (map (fn [^PointD vertex]
+                                [(.x vertex) (.y vertex)])
+                              voronoi-vertices)]
+    {:vertices (into [] vertices)
      :edges    (into [] voronoi-edges)}))
 
 (defn- juncture-point [juncture]
@@ -52,10 +55,10 @@
         (for [edge (:edges voronoi)
               :let [vertex1 (get vertices (.vertex1 edge))
                     vertex2 (get vertices (.vertex2 edge))]]
-          [:line {:x1 (.x vertex1)
-                  :y1 (.y vertex1)
-                  :x2 (.x vertex2)
-                  :y2 (.y vertex2)}])))))
+          [:line {:x1 (first vertex1)
+                  :y1 (second vertex1)
+                  :x2 (first vertex2)
+                  :y2 (second vertex2)}])))))
 
 (defn isolation-toolpath [board]
   (let [cuts (isolation-cuts board)]
