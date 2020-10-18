@@ -41,9 +41,8 @@
                                              points))
         bounds       (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))
         voronoi-data (Voronoi/findAll PointDs bounds)]
-    {:vertices (.voronoiVertices voronoi-data) 
-     :edges    (.voronoiEdges voronoi-data)}))
-
+    {:vertices (into [] (.voronoiVertices voronoi-data))
+     :edges    (into [] (.voronoiEdges voronoi-data))}))
 
 (defn- juncture-point [juncture]
   (:at (data/attributes juncture)))
