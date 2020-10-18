@@ -53,12 +53,12 @@
             voronoi  (voronoi points [[0 0] [width height]])
             vertices (:vertices voronoi)]
         (for [edge (:edges voronoi)
-              :let [vertex1 (get vertices (.vertex1 edge))
-                    vertex2 (get vertices (.vertex2 edge))]]
-          [:line {:x1 (first vertex1)
-                  :y1 (second vertex1)
-                  :x2 (first vertex2)
-                  :y2 (second vertex2)}])))))
+              :let [start (get vertices (.vertex1 edge))
+                    end (get vertices (.vertex2 edge))]]
+          [:line {:x1 (first start)
+                  :y1 (second start)
+                  :x2 (first end)
+                  :y2 (second end)}])))))
 
 (defn isolation-toolpath [board]
   (let [cuts (isolation-cuts board)]
