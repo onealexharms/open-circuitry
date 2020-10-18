@@ -26,10 +26,6 @@
 (defn junctures [board]
   (data/children board))
 
-(defn cutout-RectD [board]
-  (let [{:keys [width height]} (data/attributes board)]
-    (RectD. (PointD. 0 0) (PointD. width height))))
-
 (defn juncture->PointD [juncture]
    (let [[x y] (:at (data/attributes juncture))]
      (PointD. x y)))
@@ -39,14 +35,15 @@
     (map juncture->PointD)
     (into-array PointD)))
 
-(defn voronoi [points bounds]
-  (Voronoi/findAll points bounds))
+(defn voronoi [points [[x y] [width height]]]
+  (let [bounds (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))]
+    (Voronoi/findAll points bounds)))
 
 (defn- isolation-cuts [board]
-  (let [points (junctures-as-PointDs board)
-        bounds (cutout-RectD board)]
+  (let [points (junctures-as-PointDs board)]
     (if (> (count points) 1)
-      (let [voronoi  (voronoi points bounds)
+      (let [{:keys [width height]} (data/attributes board)
+            voronoi  (voronoi points [[0 0] [width height]])
             vertices (.voronoiVertices voronoi)]
         (for [edge (.voronoiEdges voronoi)
               :let [vertex1 (get vertices (.vertex1 edge))
