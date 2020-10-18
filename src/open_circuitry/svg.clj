@@ -38,8 +38,8 @@
                                 [(.x vertex) (.y vertex)])
                               voronoi-vertices)
         edges            (map (fn [edge]
-                                {:vertex-1 (.vertex1 edge)
-                                 :vertex-2 (.vertex2 edge)}) 
+                                {:start (.vertex1 edge)
+                                 :end   (.vertex2 edge)}) 
                               voronoi-edges)]
     {:vertices (into [] vertices)
      :edges    (into [] edges)}))
@@ -57,8 +57,8 @@
             voronoi  (voronoi points [[0 0] [width height]])
             vertices (:vertices voronoi)]
         (for [edge (:edges voronoi)
-              :let [[start-x start-y] (get vertices (:vertex-1 edge))
-                    [end-x end-y]     (get vertices (:vertex-2 edge))]]
+              :let [[start-x start-y] (get vertices (:start edge))
+                    [end-x end-y]     (get vertices (:end edge))]]
           [:line {:x1 start-x
                   :y1 start-y
                   :x2 end-x
