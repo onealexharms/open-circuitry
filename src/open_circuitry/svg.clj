@@ -26,15 +26,6 @@
 (defn junctures [board]
   (data/children board))
 
-(defn juncture->PointD [juncture]
-   (let [[x y] (:at (data/attributes juncture))]
-     (PointD. x y)))
-
-(defn junctures-as-PointDs [board]
-  (->> (junctures board)
-    (map juncture->PointD)
-    (into-array PointD)))
-
 (defn voronoi [points [[x y] [width height]]]
   (let [PointDs      (into-array PointD (map (fn [[x y]]
                                                (PointD. x y))
