@@ -57,13 +57,13 @@
 
 (defn- isolation-cuts [board]
   (if (> (count (juncture-points board)) 1)
-      (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
-            :let [[start-x start-y] (:start edge)
-                  [end-x end-y]     (:end edge)]]
-        [:line {:x1 start-x
-                :y1 start-y
-                :x2 end-x
-                :y2 end-y}])))
+    (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
+          :let [[start-x start-y] (:start edge)
+                [end-x end-y]     (:end edge)]]
+      [:line {:x1 start-x
+              :y1 start-y
+              :x2 end-x
+              :y2 end-y}])))
 
 (defn isolation-toolpath [board]
   (let [cuts (isolation-cuts board)]
