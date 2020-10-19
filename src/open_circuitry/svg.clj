@@ -51,17 +51,19 @@
 (defn- juncture-points [board]
   (map juncture-point (junctures board)))
 
+(defn- bounds [board]
+  (let [{:keys [width height]} (data/attributes board)]
+    [[0 0] [width height]]))
+
 (defn- isolation-cuts [board]
   (if (> (count (juncture-points board)) 1)
-    (let [{:keys [width height]} (data/attributes board)
-          voronoi  (voronoi (juncture-points board) [[0 0] [width height]])]
-      (for [edge (:edges voronoi)
+      (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
             :let [[start-x start-y] (:start edge)
                   [end-x end-y]     (:end edge)]]
         [:line {:x1 start-x
                 :y1 start-y
                 :x2 end-x
-                :y2 end-y}]))))
+                :y2 end-y}])))
 
 (defn isolation-toolpath [board]
   (let [cuts (isolation-cuts board)]
