@@ -3,11 +3,11 @@
    (org.kynosarges.tektosyne.geometry PointD RectD Voronoi)))
 
 (defn voronoi
-  [points [[x y] [width height]]]
+  [points [[left top] [width height]]]
   (let [PointDs      (into-array PointD (map (fn [[x y]]
                                                (PointD. x y))
                                              points))
-        bounds           (RectD. (PointD. x y) (PointD. (+ x width) (+ y height)))
+        bounds           (RectD. (PointD. left top) (PointD. (+ left width) (+ top height)))
         voronoi-object   (Voronoi/findAll PointDs bounds)
         voronoi-vertices (.voronoiVertices voronoi-object)
         voronoi-edges    (.voronoiEdges voronoi-object)
