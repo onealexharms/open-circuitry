@@ -10,9 +10,9 @@
 
 (defn voronoi
   [points [[left top] [width height]]]
-  (let [PointDs          (into-array PointD (map ->PointD points))
+  (let [pointDs          (into-array PointD (map ->PointD points))
         bounds           (RectD. (PointD. left top) (PointD. (+ left width) (+ top height)))
-        voronoi-object   (Voronoi/findAll PointDs bounds)
+        voronoi-object   (Voronoi/findAll pointDs bounds)
         voronoi-vertices (.voronoiVertices voronoi-object)
         voronoi-edges    (.voronoiEdges voronoi-object)
         generator-points (vec (map ->point (.generatorSites voronoi-object)))
