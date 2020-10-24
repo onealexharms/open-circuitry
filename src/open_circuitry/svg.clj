@@ -26,7 +26,8 @@
   (data/children board))
 
 (defn- juncture-point [juncture]
-  (:at (data/attributes juncture)))
+  (let [[x y] (:at (data/attributes juncture))]
+    [(double x) (double y)]))
 
 (defn- juncture-points [board]
   (map juncture-point (junctures board)))
