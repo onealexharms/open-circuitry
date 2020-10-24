@@ -17,11 +17,11 @@
         voronoi-edges    (.voronoiEdges voronoi-object)
         generator-points (vec (map ->point (.generatorSites voronoi-object)))
         vertices         (vec (map ->point voronoi-vertices))
-        edges            (vec (map (fn [edge]
-                                     {:start            (get vertices (.vertex1 edge))
-                                      :end              (get vertices (.vertex2 edge))
-                                      :generator-points [(get generator-points (.site1 edge))
-                                                         (get generator-points (.site2 edge))]})
-                                   voronoi-edges))]
+        ->edge           (fn [edge]
+                           {:start            (get vertices (.vertex1 edge))
+                            :end              (get vertices (.vertex2 edge))
+                            :generator-points [(get generator-points (.site1 edge))
+                                               (get generator-points (.site2 edge))]})
+        edges            (vec (map ->edge voronoi-edges))]
     {:vertices vertices
      :edges    edges}))
