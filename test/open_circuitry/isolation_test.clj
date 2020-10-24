@@ -56,7 +56,11 @@
     (testing "are isolated"
       (let [GND-coordinates [7 8]
             VCC-coordinates [5 5]
+            abc-coordinates [1 2]
             board           [:open-circuitry/board {:width 10 :height 20}
                              [:juncture {:at GND-coordinates, :trace "GND"}]
-                             [:juncture {:at VCC-coordinates, :trace "VCC"}]]]
-        (is (isolated? GND-coordinates VCC-coordinates board))))))
+                             [:juncture {:at VCC-coordinates, :trace "VCC"}]
+                             [:juncture {:at abc-coordinates, :trace "abc"}]]]
+        (is (isolated? GND-coordinates VCC-coordinates board))
+        (is (isolated? GND-coordinates abc-coordinates board))
+        (is (isolated? abc-coordinates VCC-coordinates board))))))
