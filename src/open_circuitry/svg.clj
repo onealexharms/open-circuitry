@@ -29,6 +29,9 @@
   (let [[x y] (:at (data/attributes juncture))]
     [(double x) (double y)]))
 
+(defn- juncture-trace [juncture]
+  (:trace (data/attributes juncture)))
+
 (defn- juncture-points [board]
   (map juncture-point (junctures board)))
 
@@ -36,15 +39,26 @@
   (let [{:keys [width height]} (data/attributes board)]
     [[0 0] [width height]]))
 
+(defn- traces [junctures]
+  (zipmap
+    (map juncture-point junctures)
+    (map juncture-trace junctures)))  
+
 (defn- isolation-cuts [board]
   (if (> (count (juncture-points board)) 1)
-    (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
-          :let [[start-x start-y] (:start edge)
-                [end-x end-y]     (:end edge)]]
-      [:line {:x1 start-x
-              :y1 start-y
-              :x2 end-x
-              :y2 end-y}])))
+    (let [traces (traces (junctures board))]
+      (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
+            :let [[start-x start-y] (:start edge)
+                  [end-x end-y]     (:end edge)
+                  generator-points  (:generator-points edge)]
+            :when (or (nil? (get traces (first generator-points)))
+                      (nil? (get traces (last generator-points)))
+                      (not= (get traces (first generator-points))
+                            (get traces (last generator-points))))]
+        [:line {:x1 start-x
+                :y1 start-y
+                :x2 end-x
+                :y2 end-y}]))))
 
 (defn isolation-toolpath [board]
   (let [cuts (isolation-cuts board)]

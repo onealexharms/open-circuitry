@@ -15,8 +15,8 @@
   (testing "for a board with two unconnected junctures"
     (testing "has isolation cuts"
       (let [board [:open-circuitry/board {:width 10 :height 20}
-                   [:juncture {:at [2 2]}]
-                   [:juncture {:at [5 5]}]]
+                   [:juncture {:at [2.0 2.0]}]
+                   [:juncture {:at [5.0 5.0]}]]
             cuts (elements-by-selector [:#isolation-toolpath :> :line] board)]
         (is (not (empty? cuts)))))))
 
@@ -63,4 +63,16 @@
                              [:juncture {:at abc-coordinates, :trace "abc"}]]]
         (is (isolated? GND-coordinates VCC-coordinates board))
         (is (isolated? GND-coordinates abc-coordinates board))
-        (is (isolated? abc-coordinates VCC-coordinates board))))))
+        (is (isolated? abc-coordinates VCC-coordinates board)))))
+  (testing "that share a Voronoi edge and share a trace"
+    (testing "are not isolated"
+      (let [GND-coordinates [7 8]
+            VCC-start       [5 5]
+            VCC-end         [1 2]
+            board           [:open-circuitry/board {:width 10 :height 20}
+                             [:juncture {:at GND-coordinates, :trace "GND"}]
+                             [:juncture {:at VCC-start, :trace "VCC"}]
+                             [:juncture {:at VCC-end, :trace "VCC"}]]]
+        (is (isolated? GND-coordinates VCC-start board))
+        (is (isolated? GND-coordinates VCC-end board))
+        (is (not (isolated? VCC-start VCC-end board)))))))
