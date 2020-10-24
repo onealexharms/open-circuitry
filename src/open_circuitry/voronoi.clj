@@ -5,11 +5,12 @@
 (defn- ->point [^PointD p]
   [(.x p) (.y p)])
 
+(defn- ->PointD [[x y]]
+  (PointD. x y))
+
 (defn voronoi
   [points [[left top] [width height]]]
-  (let [PointDs      (into-array PointD (map (fn [[x y]]
-                                               (PointD. x y))
-                                             points))
+  (let [PointDs          (into-array PointD (map ->PointD points))
         bounds           (RectD. (PointD. left top) (PointD. (+ left width) (+ top height)))
         voronoi-object   (Voronoi/findAll PointDs bounds)
         voronoi-vertices (.voronoiVertices voronoi-object)
