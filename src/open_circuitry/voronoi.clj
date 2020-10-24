@@ -15,8 +15,9 @@
                                      [(.x vertex) (.y vertex)])
                                    voronoi-vertices))
         edges            (vec (map (fn [edge]
-                                     {:start (get vertices (.vertex1 edge))
-                                      :end   (get vertices (.vertex2 edge))})
+                                     {:start            (get vertices (.vertex1 edge))
+                                      :end              (get vertices (.vertex2 edge))
+                                      :generator-points "string"})
                                    voronoi-edges))]
     {:vertices vertices
      :edges    edges}))
