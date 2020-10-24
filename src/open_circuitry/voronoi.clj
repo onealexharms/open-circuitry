@@ -8,6 +8,14 @@
 (defn- ->PointD [[x y]]
   (PointD. x y))
 
+(defn- edges [tektosyne-edges vertices generator-points]
+  (let [edge (fn [tektosyne-edge]
+               {:start            (get vertices (.vertex1 tektosyne-edge))
+                :end              (get vertices (.vertex2 tektosyne-edge))
+                :generator-points [(get generator-points (.site1 tektosyne-edge))
+                                   (get generator-points (.site2 tektosyne-edge))]})]
+    (vec (map edge tektosyne-edges))))
+
 (defn voronoi
   [points [[left top] [width height]]]
   (let [pointDs             (into-array PointD (map ->PointD points))
@@ -17,11 +25,6 @@
         tektosyne-edges     (.voronoiEdges tektosyne-voronoi)
         generator-points    (vec (map ->point (.generatorSites tektosyne-voronoi)))
         vertices            (vec (map ->point tektosyne-vertices))
-        ->edge              (fn [edge]
-                              {:start            (get vertices (.vertex1 edge))
-                               :end              (get vertices (.vertex2 edge))
-                               :generator-points [(get generator-points (.site1 edge))
-                                                  (get generator-points (.site2 edge))]})
-        edges               (vec (map ->edge tektosyne-edges))]
+        edges               (edges tektosyne-edges vertices generator-points)]
     {:vertices vertices
      :edges    edges}))
