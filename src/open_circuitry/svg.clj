@@ -52,10 +52,10 @@
                   [end-x end-y]     (:end edge)
                   generator-points  (:generator-points edge)
                   trace1            (get traces (first generator-points))
-                  trace2            (get traces (last generator-points))]
-            :when (or (nil? trace1)
-                      (nil? trace2)
-                      (not= trace1 trace2))]
+                  trace2            (get traces (last generator-points))
+                  no-traces?        (and (nil? trace1) (nil? trace2)) 
+                  different-traces? (not= trace1 trace2)] 
+            :when (or different-traces? no-traces?)]
         [:line {:x1 start-x
                 :y1 start-y
                 :x2 end-x
