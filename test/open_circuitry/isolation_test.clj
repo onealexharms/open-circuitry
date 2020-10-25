@@ -8,17 +8,17 @@
 
 (deftest an-isolation-toolpath
   (testing "for a board with no junctures"
-    (testing "has no isolation cuts"
+    (testing "has no isolation paths"
       (let [board [:open-circuitry/board {:width 10 :height 20}]
-            cuts (elements-by-selector [:#isolation-toolpath :> :line] board)]
-        (is (empty? cuts)))))
+            paths (elements-by-selector [:#isolation-toolpath :> :line] board)]
+        (is (empty? paths)))))
   (testing "for a board with two unconnected junctures"
-    (testing "has isolation cuts"
+    (testing "has isolation paths"
       (let [board [:open-circuitry/board {:width 10 :height 20}
                    [:juncture {:at [2.0 2.0]}]
                    [:juncture {:at [5.0 5.0]}]]
-            cuts (elements-by-selector [:#isolation-toolpath :> :line] board)]
-        (is (not (empty? cuts)))))))
+            paths (elements-by-selector [:#isolation-toolpath :> :line] board)]
+        (is (not (empty? paths)))))))
 
 (defn line->LineD [line]
   (LineD. (read-string (:x1 (:attrs line)))

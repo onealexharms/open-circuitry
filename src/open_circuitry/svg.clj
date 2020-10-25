@@ -51,7 +51,7 @@
         different-traces? (not= trace1 trace2)] 
     (or different-traces? no-traces?)))
 
-(defn- isolation-cuts [board]
+(defn- isolation-paths [board]
   (if (> (count (juncture-points board)) 1)
     (let [traces (traces (junctures board))]
       (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
@@ -65,11 +65,11 @@
                 :y2 end-y}]))))
 
 (defn isolation-toolpath [board]
-  (let [cuts (isolation-cuts board)]
+  (let [paths (isolation-paths board)]
     (node [:g#isolation-toolpath]
-          (if (empty? cuts)
+          (if (empty? paths)
             ["dummy text so dali doesn't delete"]
-            cuts))))
+            paths))))
 
 (defn drill-holes [board diameter]
   (for [juncture (junctures board)
