@@ -50,10 +50,11 @@
       (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
             :let [[start-x start-y] (:start edge)
                   [end-x end-y]     (:end edge)
-                  generator-points  (:generator-points edge)]
-            :when (or (nil? (get traces (first generator-points)))
+                  generator-points  (:generator-points edge)
+                  trace1            (get traces (first generator-points))]
+            :when (or (nil? trace1)
                       (nil? (get traces (last generator-points)))
-                      (not= (get traces (first generator-points))
+                      (not= trace1
                             (get traces (last generator-points))))]
         [:line {:x1 start-x
                 :y1 start-y
