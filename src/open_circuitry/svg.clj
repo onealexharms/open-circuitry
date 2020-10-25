@@ -51,11 +51,11 @@
             :let [[start-x start-y] (:start edge)
                   [end-x end-y]     (:end edge)
                   generator-points  (:generator-points edge)
-                  trace1            (get traces (first generator-points))]
+                  trace1            (get traces (first generator-points))
+                  trace2            (get traces (last generator-points))]
             :when (or (nil? trace1)
-                      (nil? (get traces (last generator-points)))
-                      (not= trace1
-                            (get traces (last generator-points))))]
+                      (nil? trace2)
+                      (not= trace1 trace2))]
         [:line {:x1 start-x
                 :y1 start-y
                 :x2 end-x
