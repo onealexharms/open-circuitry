@@ -44,11 +44,9 @@
     (map juncture-point junctures)
     (map juncture-trace junctures)))  
 
-(defn- should-isolate? [generator-points traces]
-  (let [trace1            (get traces (first generator-points))
-        trace2            (get traces (last generator-points))
-        no-traces?        (and (nil? trace1) (nil? trace2)) 
-        different-traces? (not= trace1 trace2)] 
+(defn- should-isolate? [[point1 point2] traces]
+  (let [no-traces?        (and (nil? (traces point1)) (nil? (traces point2)))
+        different-traces? (not= (traces point1) (traces point2))]
     (or different-traces? no-traces?)))
 
 (defn- isolation-paths [board]
