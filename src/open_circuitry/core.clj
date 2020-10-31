@@ -4,10 +4,6 @@
     [dali.layout.distribute]
     [open-circuitry.svg :as svg]))
 
-(defn position [thing x y]
-  [:g {:transform [:translate [x y]]}
-   thing])
-
 (defmacro define [name value]
   `(def ^:private ~name ~value))
 
