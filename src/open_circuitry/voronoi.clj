@@ -33,7 +33,5 @@
         tektosyne-vertices  (.voronoiVertices tektosyne-voronoi)
         tektosyne-edges     (.voronoiEdges tektosyne-voronoi)
         generator-points    (vec (map ->point (.generatorSites tektosyne-voronoi)))
-        vertices            (vec (map ->point tektosyne-vertices))
         edges               (edges tektosyne-bounds tektosyne-edges tektosyne-vertices generator-points)]
-    {:vertices vertices
-     :edges    edges}))
+    {:edges edges}))
