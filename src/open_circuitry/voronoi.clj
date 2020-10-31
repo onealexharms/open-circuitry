@@ -15,8 +15,8 @@
         end          (->point (.end clipped-line))]
     [start end]))
 
-(defn- edges [tektosyne-bounds tektosyne-edges tektosyne-vertices generator-points]
-  (vec (for [tektosyne-edge tektosyne-edges]
+(defn- edges [tektosyne-voronoi tektosyne-bounds tektosyne-vertices generator-points]
+  (vec (for [tektosyne-edge (.voronoiEdges tektosyne-voronoi)]
          (let [[start end] (bounded-edge tektosyne-bounds
                                          (get tektosyne-vertices (.vertex1 tektosyne-edge))
                                          (get tektosyne-vertices (.vertex2 tektosyne-edge)))]
@@ -31,7 +31,6 @@
         tektosyne-bounds    (RectD. (PointD. left top) (PointD. (+ left width) (+ top height)))
         tektosyne-voronoi   (Voronoi/findAll pointDs tektosyne-bounds)
         tektosyne-vertices  (.voronoiVertices tektosyne-voronoi)
-        tektosyne-edges     (.voronoiEdges tektosyne-voronoi)
         generator-points    (vec (map ->point (.generatorSites tektosyne-voronoi)))
-        edges               (edges tektosyne-bounds tektosyne-edges tektosyne-vertices generator-points)]
+        edges               (edges tektosyne-voronoi tektosyne-bounds tektosyne-vertices generator-points)]
     {:edges edges}))
