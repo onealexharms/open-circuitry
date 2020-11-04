@@ -57,8 +57,7 @@
           edges           (filter #(should-isolate? traces %) possible-edges)]
       (for [edge edges
             :let [[start-x start-y] (:start edge)
-                  [end-x end-y]     (:end edge)
-                  generator-points  (:generator-points edge)]]
+                  [end-x end-y]     (:end edge)]]
         [:line {:x1 start-x
                 :y1 start-y
                 :x2 end-x
