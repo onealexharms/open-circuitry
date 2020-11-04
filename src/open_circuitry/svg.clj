@@ -58,12 +58,15 @@
             :x2 end-x
             :y2 end-y}]))
 
+(defn- merge-colinear [edges]
+  edges)
+
 (defn- isolation-paths [board]
   (if (> (count (juncture-points board)) 1)
-    (let [traces          (traces (junctures board))
-          possible-edges  (:edges (voronoi (juncture-points board) (bounds board)))
-          edges           (filter #(separates-isolated-traces? % traces) possible-edges)
-          lines           (map edge->line edges)]
+    (let [traces           (traces (junctures board))
+          possible-edges   (:edges (voronoi (juncture-points board) (bounds board)))
+          isolating-edges  (filter #(separates-isolated-traces? % traces) possible-edges)
+          lines            (map edge->line isolating-edges)]
       lines)))
 
 (defn isolation-toolpath [board]

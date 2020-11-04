@@ -1,7 +1,8 @@
 (ns open-circuitry.isolation-test
   (:require
    [clojure.test :refer [deftest testing is]]
-   [open-circuitry.test-helpers :refer :all]))
+   [open-circuitry.test-helpers :refer :all]
+   [open-circuitry.svg :as private]))
 
 (defn- has-negative-x? [path]
   (let [{:keys [x1 x2]} (:attrs path)]
@@ -30,14 +31,19 @@
         (is (not (empty? paths))))
       (testing "has no isolation paths with a negative x"
         (is (empty? (filter has-negative-x? paths))))))
-  (testing "has well-formed paths"
+  (testing "for a board with two connected pairs in a square"
     (let [board [:open-circuitry/board {:width 10 :height 20}
                  [:juncture {:at [3 3] :trace "hee"}]
                  [:juncture {:at [3 5] :trace "hee"}]
                  [:juncture {:at [5 3] :trace "haw"}]
                  [:juncture {:at [5 5] :trace "haw"}]]
           paths (elements-by-selector [:#isolation-toolpath :> :line] board)]
-      (testing "with no zero-length paths"
-        (is (empty? (filter zero-length? paths))))
-      (testing "with no breaks along a linear path")))) 
-        ; (is (= 1 (count paths)))))))
+      (testing "has no zero-length paths"
+        (is (empty? (filter zero-length? paths)))))))
+
+(deftest merge-colinear-function
+  (testing "when there's one edge"
+    (testing "returns one edge" 
+      (let [edge {:start [2, 3], :end [11 9]}]
+        (is (= (#'private/merge-colinear [edge]) [edge]))))))
+             
