@@ -44,7 +44,7 @@
     (map juncture-point junctures)
     (map juncture-trace junctures)))  
 
-(defn- should-isolate? [edge traces]
+(defn- should-isolate? [traces edge]
   (let [[point1 point2]   (:generator-points edge)
         no-traces?        (and (nil? (traces point1)) (nil? (traces point2)))
         different-traces? (not= (traces point1) (traces point2))]
@@ -52,13 +52,13 @@
 
 (defn- isolation-paths [board]
   (if (> (count (juncture-points board)) 1)
-    (let [traces (traces (junctures board))
-          edges  (:edges (voronoi (juncture-points board) (bounds board)))]
+    (let [traces          (traces (junctures board))
+          possible-edges  (:edges (voronoi (juncture-points board) (bounds board)))
+          edges           (filter #(should-isolate? traces %) possible-edges)]
       (for [edge edges
             :let [[start-x start-y] (:start edge)
                   [end-x end-y]     (:end edge)
-                  generator-points  (:generator-points edge)]
-            :when (should-isolate? edge traces)]
+                  generator-points  (:generator-points edge)]]
         [:line {:x1 start-x
                 :y1 start-y
                 :x2 end-x
