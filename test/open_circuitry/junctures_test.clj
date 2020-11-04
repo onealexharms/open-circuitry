@@ -37,8 +37,8 @@
           (is (= {:cx "1", :cy "2"} location1))
           (is (= {:cx "2", :cy "3"} location2)))
         (testing "that accomodate LaserWeb's hole weirdness"
-          (is (= "0.02" (:r (:attrs (first holes)))))
-          (is (= "0.02" (:r (:attrs (second holes)))))))))
+          (is (= "0.002" (:r (:attrs (first holes)))))
+          (is (= "0.002" (:r (:attrs (second holes)))))))))
   (testing "for a board with only non-drilled junctures"
     (let [board [:open-circuitry/board {:width 10, :height 10}
                  [:juncture {:at [4 3]}]
