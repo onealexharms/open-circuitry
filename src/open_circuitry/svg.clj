@@ -44,8 +44,9 @@
     (map juncture-point junctures)
     (map juncture-trace junctures)))  
 
-(defn- should-isolate? [[point1 point2] traces]
-  (let [no-traces?        (and (nil? (traces point1)) (nil? (traces point2)))
+(defn- should-isolate? [edge traces]
+  (let [[point1 point2]   (:generator-points edge)
+        no-traces?        (and (nil? (traces point1)) (nil? (traces point2)))
         different-traces? (not= (traces point1) (traces point2))]
     (or different-traces? no-traces?)))
 
@@ -57,7 +58,7 @@
             :let [[start-x start-y] (:start edge)
                   [end-x end-y]     (:end edge)
                   generator-points  (:generator-points edge)]
-            :when (should-isolate? generator-points traces)]
+            :when (should-isolate? edge traces)]
         [:line {:x1 start-x
                 :y1 start-y
                 :x2 end-x

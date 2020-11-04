@@ -40,4 +40,4 @@
       (testing "with no zero-length paths"
         (is (empty? (filter zero-length? paths))))
       (testing "with no breaks along a linear path")))) 
-       ; (is (= 1 (count paths)))))))
+        ; (is (= 1 (count paths)))))))
