@@ -44,7 +44,7 @@
     (map juncture-point junctures)
     (map juncture-trace junctures)))  
 
-(defn- should-isolate? [traces edge]
+(defn- separates-isolated-traces? [edge traces]
   (let [[point1 point2]   (:generator-points edge)
         no-traces?        (and (nil? (traces point1)) (nil? (traces point2)))
         different-traces? (not= (traces point1) (traces point2))]
@@ -62,7 +62,7 @@
   (if (> (count (juncture-points board)) 1)
     (let [traces          (traces (junctures board))
           possible-edges  (:edges (voronoi (juncture-points board) (bounds board)))
-          edges           (filter #(should-isolate? traces %) possible-edges)
+          edges           (filter #(separates-isolated-traces? % traces) possible-edges)
           lines           (map edge->line edges)]
       lines)))
 
