@@ -39,7 +39,9 @@
                                 :end              end
                                 :generator-points [(get generator-points index-of-site1)
                                                    (get generator-points index-of-site2)]}))] 
-    (vec (remove zero-length? edges))))
+    (->> edges
+         (remove zero-length?)
+         (vec))))
 
 (defn voronoi [points [[left top] [width height]]]
   (let [pointDs             (into-array PointD (map ->PointD points))
