@@ -62,9 +62,9 @@
   (if (> (count (juncture-points board)) 1)
     (let [traces          (traces (junctures board))
           possible-edges  (:edges (voronoi (juncture-points board) (bounds board)))
-          edges           (filter #(should-isolate? traces %) possible-edges)]
-      (for [edge edges]
-        (edge->line edge)))))
+          edges           (filter #(should-isolate? traces %) possible-edges)
+          lines           (map edge->line edges)]
+      lines)))
 
 (defn isolation-toolpath [board]
   (let [paths (isolation-paths board)]
