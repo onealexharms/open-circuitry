@@ -25,9 +25,9 @@
 
 (defn- edges [tektosyne-voronoi tektosyne-bounds] 
   (let [generator-points   (vec (map ->point (.generatorSites tektosyne-voronoi)))
+        tektosyne-vertices (.voronoiVertices tektosyne-voronoi)
         edges              (for [tektosyne-edge (.voronoiEdges tektosyne-voronoi)]
-                             (let [tektosyne-vertices (.voronoiVertices tektosyne-voronoi)
-                                   index-of-vertex1   (.vertex1 tektosyne-edge)
+                             (let [index-of-vertex1   (.vertex1 tektosyne-edge)
                                    index-of-vertex2   (.vertex2 tektosyne-edge)
                                    [start end]        (bounded-edge 
                                                         tektosyne-bounds
