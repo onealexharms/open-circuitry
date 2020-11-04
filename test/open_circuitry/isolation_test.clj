@@ -30,13 +30,14 @@
         (is (not (empty? paths))))
       (testing "has no isolation paths with a negative x"
         (is (empty? (filter has-negative-x? paths))))))
-  (testing "for a board with four isolated junctures in a perfrect square"
+  (testing "has well-formed paths"
     (let [board [:open-circuitry/board {:width 10 :height 20}
-                 [:juncture {:at [3 3]}]
-                 [:juncture {:at [3 5]}]
-                 [:juncture {:at [5 3]}]
-                 [:juncture {:at [5 5]}]]
+                 [:juncture {:at [3 3] :trace "hee"}]
+                 [:juncture {:at [3 5] :trace "hee"}]
+                 [:juncture {:at [5 3] :trace "haw"}]
+                 [:juncture {:at [5 5] :trace "haw"}]]
           paths (elements-by-selector [:#isolation-toolpath :> :line] board)]
-      (testing "has no zero-length edges"
-        (is (empty? (filter zero-length? paths)))))))
-  
+      (testing "with no zero-length paths"
+        (is (empty? (filter zero-length? paths))))
+      (testing "with no breaks along a linear path")))) 
+       ; (is (= 1 (count paths)))))))

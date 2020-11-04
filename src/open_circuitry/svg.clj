@@ -51,8 +51,9 @@
 
 (defn- isolation-paths [board]
   (if (> (count (juncture-points board)) 1)
-    (let [traces (traces (junctures board))]
-      (for [edge (:edges (voronoi (juncture-points board) (bounds board)))
+    (let [traces (traces (junctures board))
+          edges  (:edges (voronoi (juncture-points board) (bounds board)))]
+      (for [edge edges
             :let [[start-x start-y] (:start edge)
                   [end-x end-y]     (:end edge)
                   generator-points  (:generator-points edge)]
