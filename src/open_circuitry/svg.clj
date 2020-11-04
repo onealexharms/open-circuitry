@@ -7,7 +7,7 @@
   (vec (apply concat collections)))
 
 (defn drill-hole [x y]
-  [:circle {:cx x :cy y :r 0.02}])
+  [:circle {:cx x :cy y :r 0.002}])
 
 (def toolpath :g)
 
