@@ -10,9 +10,9 @@
 
 (deftest an-isolation-toolpath
   (testing "for a board with no junctures"
-    (testing "has no isolation paths"
-      (let [board [:open-circuitry/board {:width 10 :height 20}]
-            paths (elements-by-selector [:#isolation-toolpath :> :line] board)]
+    (let [board [:open-circuitry/board {:width 10 :height 20}]
+          paths (elements-by-selector [:#isolation-toolpath :> :line] board)]
+      (testing "has no isolation paths"
         (is (empty? paths)))))
   (testing "for a board with two unconnected junctures"
     (let [board [:open-circuitry/board {:width 10 :height 20}
